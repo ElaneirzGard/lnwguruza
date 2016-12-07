@@ -91,6 +91,13 @@ MongoClient.connect(url, function(err, database) {
 // })
 
 
+// var Clarifai = require('clarifai');
+// var appClarifai = new Clarifai.App(
+//   'McQCTVH2Pv3Yu0Pa3LhD76WsTophGA-FmOqQUdk_',
+//   'HmDVVO-TzoPMQkJAfkt4vNwZJtWw2GAEdehbXf02'
+// );
+
+
 /*
  * Be sure to setup your config values before running this code. You can 
  * set them using environment variables or modifying the config file in /config.
@@ -593,6 +600,7 @@ function receivedMessage(event) {
     */
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
+    console.log(messageAttachments);
   }
 }
 
