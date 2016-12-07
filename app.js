@@ -569,7 +569,8 @@ function receivedMessage(event) {
             return ;
           }
           else if(docs.length != 0){ //found user
-            console.log('-----found user-----');
+            
+            console.log('<<<<<<<<<<<<<   IMG-begin   >>>>>>>>>>>');
             lastMessage = docs[0].lastMessage;
             // if(lastMessage == "image") {
               appClarifai.models.predict(Clarifai.GENERAL_MODEL, messageAttachments.url).then(
@@ -581,6 +582,7 @@ function receivedMessage(event) {
                 }
               );
             // }
+            console.log('<<<<<<<<<<<<<   IMG-end   >>>>>>>>>>>');
           } 
           else{//user not found
             console.log('-----user not found-----');
