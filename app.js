@@ -474,10 +474,10 @@ function receivedMessage(event) {
           });
           sendTextMessage(senderID, messageText);
         }
-        else if(messageText.indexOf('cal')==-1 || messageText.indexOf('wolfram')!= -1){// calculate
+        else if(messageText.indexOf('cal') !=-1 || messageText.indexOf('wolfram')!= -1){// calculate
           sendTextMessage(senderID, "Ok, Give me the question1");
         }
-        else if(messageText.indexOf('know')==-1 || messageText.indexOf('wiki')!= -1){// search wiki
+        else if(messageText.indexOf('know') !=-1 || messageText.indexOf('wiki')!= -1){// search wiki
           sendTextMessage(senderID, "Ok, Give me the question2");
         }
         ///graph
