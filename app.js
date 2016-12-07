@@ -612,7 +612,7 @@ function receivedMessage(event) {
             console.log('<<<<<<<<<<<<<   IMG-begin   >>>>>>>>>>>');
             lastMessage = docs[0].lastMessage;
             
-            console.log(messageAttachments[0];
+            console.log(messageAttachments[0]);
             console.log(messageAttachments[0].url);
 
             // if(lastMessage == "image") {
