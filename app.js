@@ -69,6 +69,13 @@ MongoClient.connect(url, function(err, database) {
 // })
 
 
+// var Clarifai = require('clarifai');
+// var appClarifai = new Clarifai.App(
+//   'McQCTVH2Pv3Yu0Pa3LhD76WsTophGA-FmOqQUdk_',
+//   'HmDVVO-TzoPMQkJAfkt4vNwZJtWw2GAEdehbXf02'
+// );
+
+
 /*
  * Be sure to setup your config values before running this code. You can 
  * set them using environment variables or modifying the config file in /config.
@@ -187,7 +194,7 @@ app.get('/loginfb/:senderId', function(req, res){
                     FB.api('/me', {fields: 'id'}, function(response) {
                       fbId = response.id;
                       console.log(${senderId})
-                      $.get("/addFacebookId/"+${senderId}+fbId,
+                      $.get("/addFacebookId/"+${senderId}+"/"+fbId,
                       function(data, status){
                         console.log(data);
                       });
@@ -577,6 +584,7 @@ function receivedMessage(event) {
     */
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
+    console.log(messageAttachments);
   }
 }
 
