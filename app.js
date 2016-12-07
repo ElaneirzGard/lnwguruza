@@ -489,15 +489,20 @@ function receivedMessage(event) {
               var thai_lang = "th";
               var eng_lang = "en";
               //var text = "Who are you?";
+                console.log("start simsimi 1");
               
               var request = require('request');
+                console.log("start simsimi 2");
               request({
                   uri: "http://sandbox.api.simsimi.com/request.p?key=".concat(simsimi_key)+"&lc=".concat(thai_lang)+"&ft=1.0&text=".concat(text),
                   method: "GET"
               }, function(error, response, body) {
                   if(error) {
+                console.log("start simsimi 3");
                       console.log(error);
                   } else {
+                console.log("start simsimi 4");
+                console.log("--response.statusCode-- > ".concat(response.statusCode));
                       if(response.statusCode == 200){
                           console.log("--------------------------------body simisimi--------------------------------"); 
                           console.log(body);
@@ -623,16 +628,25 @@ function receivedMessage(event) {
           }
           else if(docs.length != 0){ //found user
             
-            console.log('<<<<<<<<<<<<<   IMG-begin   >>>>>>>>>>>');
-            lastMessage = docs[0].lastMessage;
-            
-            console.log(messageAttachments[0]);
-            console.log(messageAttachments[0].payload.url);
+            let imageUrl = messageAttachments[0].payload.url;
+            let predictResponse;
+            let lastMessage = docs[0].lastMessage;
+            console.log('<<<<<<<<<<<<<   IMG-begin  (%s)  >>>>>>>>>>>', imageUrl);
 
             // if(lastMessage == "image") {
-              appClarifai.models.predict(Clarifai.GENERAL_MODEL, messageAttachments[0].payload.url).then(
+              appClarifai.models.predict(Clarifai.GENERAL_MODEL, imageUrl).then(
                 function(response) {
-                  console.log(response);
+                  let concepts = response.data.outputs[0].data.concepts;
+                  let conceptsString = "";
+                  for(let concept of concepts) {
+                    conceptsString += `${concept.name} (${(concept.value*100.0).toFixed(2)})\n`;
+                  }
+                  
+                  let toBeSend = "รูปนี้เป็นรูปเกี่ยวกับ : \n"+conceptString;
+                  sendTextMessage(senderID, toBeSend);
+                  
+                  console.log(conceptsString, "\n\n");
+
                 },
                 function(err) {
                   console.error("error: image processing clarifal");
