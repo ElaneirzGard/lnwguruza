@@ -483,7 +483,7 @@ function receivedMessage(event) {
               console.log("Error add FacebookId",err);
             }
             else if(document){
-                console.log("facebook data >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ",document.json())
+                console.log("facebook data >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ",document)
                 var messageData = {
                 recipient: {
                   id: senderID
