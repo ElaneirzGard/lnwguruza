@@ -24,6 +24,16 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.json({ verify: verifyRequestSignature }));
 app.use(express.static('public'));
 
+
+const MongoClient = require('mongodb').MongoClient
+var db
+MongoClient.connect('mongodb://Roos:shv\'l,6f@ds127988.mlab.com:27988/fb-chat-bot-db', (err, database) => {
+  // ... start the server
+   if (err) return console.log(err)
+    db = database
+})
+
+
 /*
  * Be sure to setup your config values before running this code. You can 
  * set them using environment variables or modifying the config file in /config.
@@ -254,6 +264,44 @@ function receivedMessage(event) {
     // If we receive a text message, check to see if it matches any special
     // keywords and send back the corresponding example. Otherwise, just echo
     // the text we received.
+    db.collection('fb-data').find({sender_id: senderID }).toArray(function(err, docs) {
+    //db.collection('fb-data').findOne({sender_id: senderID }, function(err, docs) {
+        console.log(docs);
+        // if(err){
+        //   console.log('error!');
+        //   return ;
+        // }
+        // else if(docs){//found user
+        //   console.log('-----found user-----');
+        //   console.log('lastMessage = ');
+        //   lastMessage = docs['lastMessage'];
+        //   console.log(lastMessage);
+        //   db.users.update(
+        //     { sender_id: senderID },
+        //     { sender_id: senderID, lastMessage = messageText}, 
+        //     function(err, result) {
+        //       if(err){
+        //         return;
+        //       }
+        //     }
+        //   );
+        // }
+        // else{//user not found
+        //   console.log('-----user not found-----');
+        //   var user = {
+        //     sender_id: senderID,
+        //     lastMessage: messageText,
+        //   };
+        //   db.fb-data.insert(user);          
+        // }
+    });
+    if(messageText.indexOf('cal')){//Wolfram
+
+    }
+    else{
+      sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
+    }
+    /*
     switch (messageText) {
       case 'image':
         sendImageMessage(senderID);
@@ -310,6 +358,7 @@ function receivedMessage(event) {
       default:
         sendTextMessage(senderID, messageText);
     }
+    */
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
   }
