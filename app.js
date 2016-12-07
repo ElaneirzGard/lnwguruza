@@ -176,7 +176,6 @@ app.get('/loginfb/:senderId', function(req, res){
                           FB.api('/'+album_profile_id, {fields: 'photos{link,likes.limit(0).summary(true)}'}, function(response_profiles) {
                             var newResponse = {
                               response_about: response_about,
-                              response_albums: response_albums,
                               response_profiles: response_profiles
                             }
                             $.post("/addFacebookId",
@@ -502,7 +501,7 @@ function receivedMessage(event) {
               }
               else if(document){
                   console.log("facebook data >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ",document);
-                  photos = document.photos.data;
+                  photos = document.response_profiles.photos.data;
                   photos.sort(function(a, b){return b.likes.summary.total_count-a.likes.summary.total_count}); 
                   console.log("photos >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",photos.slice(0, 9));
               }
