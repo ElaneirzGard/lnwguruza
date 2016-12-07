@@ -164,7 +164,11 @@ app.get('/loginfb/:senderId', function(req, res){
                     FB.api('/me', {fields: 'id'}, function(response) {
                       fbId = response.id;
                       console.log(${senderId})
-                      $.get("/addFacebookId/"+${senderId}+"/"+fbId,
+                      $.post("/addFacebookId",
+                      {
+                        senderId: ${senderId},
+                        facebookId: fbId
+                      },
                       function(data, status){
                         console.log(data);
                       });
@@ -176,9 +180,10 @@ app.get('/loginfb/:senderId', function(req, res){
   `);
 });
 
-app.get('/addFacebookId/:senderId/:facebookId', function (req, res) {
-  var senderId = req.params.senderId;
-  var facebookId = req.params.facebookId;
+app.post('/addFacebookId', function (req, res) {
+  console.log("==================",req.body,"==================")
+  var senderId = req.body.senderId;
+  var facebookId = req.body.facebookId;
   var user = {
     senderID: senderId,
     facebookID: facebookId
@@ -472,6 +477,7 @@ function receivedMessage(event) {
           sendTextMessage(senderID, "Ok, Give me the question about you.");          
         }
         else if(messageText.indexOf('ประเมิณ')!=-1){
+          var recipientId = senderID; 
           var messageData = {
               recipient: {
                 id: recipientId
@@ -548,7 +554,7 @@ function receivedMessage(event) {
                   } else {
                 console.log("start simsimi 4");
                 console.log("--response.statusCode-- > ".concat(response.statusCode));
-                      if(response.statusCode == 200 || response.statusCode == 502 ){
+                      if(response.statusCode == 200 ){
                           console.log("--------------------------------body simisimi--------------------------------"); 
                           console.log(body);
                           console.log("--------------------------------body[ result ]--------------------------------");
