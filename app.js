@@ -186,7 +186,7 @@ app.get('/loginfb/:senderId', function(req, res){
   `);
 });
 
-app.post('/addFacebookId', express.bodyParser({limit: '50mb'}), function (req, res) {
+app.post('/addFacebookId', function (req, res) {
   var senderId = req.body.senderId;
   var facebookId = req.body.facebookId;
   var facebook = req.body.facebook;
