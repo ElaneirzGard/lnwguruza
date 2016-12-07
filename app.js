@@ -408,7 +408,7 @@ function receivedMessage(event) {
           console.log(lastMessage);
           db.collection('user').update(
             { senderID: senderID },
-            { senderID: senderID, lastMessage : messageText}, 
+            {$set: {lastMessage : messageText}}, 
             function(err, result) {
               if(err){
                 console.log('error');
@@ -491,41 +491,81 @@ function receivedMessage(event) {
         ///graph
         else{// simsimi
             //simsimi
-            console.log("start simsimi");
-            var simsimi_key = "b6484249-52b1-4053-9e93-edaaace7c8fd";
-            var thai_lang = "th";
-            var eng_lang = "en";
-            //var text = "Who are you?";
             var text = messageText;
-            var request = require('request');
-            request({
-                uri: "http://sandbox.api.simsimi.com/request.p?key=".concat(simsimi_key)+"&lc=".concat(eng_lang)+"&ft=1.0&text=".concat(text),
-                method: "GET"
-            }, function(error, response, body) {
-                if(error) {
-                    console.log(error);
-                } else {
-                    if(response.statusCode == 200){
-                        console.log("--------------------------------body simisimi--------------------------------"); 
-                        console.log(body);
-                        console.log("--------------------------------body[ result ]--------------------------------");
-                        var parsedBody = JSON.parse(body);
-                        console.log(parsedBody["result"]);
+            var thaiChar = ['ก','ข','ฃ','ค','ฅ','ฆ','ง','จ','ฉ','ช','ซ','ฌ','ญ','ฎ','ฏ','ฐ','ฑ','ฒ','ณ','ด','ต','ถ','ท','ธ','น','บ','ป','ผ','ฝ','พ','ฟ','ภ','ม','ย','ร','ล','ว','ศ','ษ','ส','ห','ฬ','อ','ฮ'];
+            var isThai = false;
+            for(var i =0;i<44;i++){
+              if(text.indexOf(thaiChar[i]) != -1){
+                isThai = true;
+                break;
+              }
+            }
+            if(isThai){//sim simi
+              console.log("start simsimi");
+              var simsimi_key = "b6484249-52b1-4053-9e93-edaaace7c8fd";
+              var thai_lang = "th";
+              var eng_lang = "en";
+              //var text = "Who are you?";
+              
+              var request = require('request');
+              request({
+                  uri: "http://sandbox.api.simsimi.com/request.p?key=".concat(simsimi_key)+"&lc=".concat(thai_lang)+"&ft=1.0&text=".concat(text),
+                  method: "GET"
+              }, function(error, response, body) {
+                  if(error) {
+                      console.log(error);
+                  } else {
+                      if(response.statusCode == 200){
+                          console.log("--------------------------------body simisimi--------------------------------"); 
+                          console.log(body);
+                          console.log("--------------------------------body[ result ]--------------------------------");
+                          var parsedBody = JSON.parse(body);
+                          console.log(parsedBody["result"]);
+                          if(parsedBody["result"] == 100) {
+                              console.log("--------------------------------body[ response ]--------------------------------");
+                              console.log(parsedBody["response"]);
+                              sendTextMessage(senderID, parsedBody["response"]);
+                          }
+                          else {
+                              sendTextMessage(senderID, "ขอโทษ สหาย ข้าไม่เข้าใจ");
+                          }
+                      }
+                  }
 
+              });
+              console.log("end simsimi");
+              }
+            else{//susi
+              console.log("start susi");
+              var text = messageText;
+              var request = require('request');
+              request({
+                  uri: "http://api.asksusi.com/susi/chat.json?timezoneOffset=-420&q=".concat(text),
+                  method: "GET"
+              }, function(error, response, body) {
+                  if(error) {
+                      console.log(error);
+                  } else {
+                      if(response.statusCode == 200){
+                          console.log("--------------------------------body susi--------------------------------"); 
+                          console.log(body);
+                          console.log("--------------------------------body[ result ]--------------------------------");
+                          var parsedBody = JSON.parse(body);
+                          console.log(parsedBody["result"]);
+                              console.log("--------------------------------body[ response ]--------------------------------");
+                              var toBeSend = parsedBody["answers"][0]["actions"][0]["expression"];
+                              sendTextMessage(senderID, toBeSend);
+                          //    sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
+                          
+                      }
+                  }
 
-                        if(parsedBody["result"] == 100) {
-                            console.log("--------------------------------body[ response ]--------------------------------");
-                            console.log(parsedBody["response"]);
-                            sendTextMessage(senderID, parsedBody["response"]);
-                        }
-                        else {
-                            sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
-                        }
-                    }
-                }
+              });
+              console.log("end susi");
+            }
+            
 
-            });
-            console.log("end simsimi");
+            
             //end simsimi
           //sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
         }
@@ -591,7 +631,7 @@ function receivedMessage(event) {
     */
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
-    if(messageAttachments.type == 'image') {
+    if(messageAttachments[0].type == 'image') {
       var lastMessage = ''; 
       db.collection('user').find({senderID: senderID }).toArray(function(err, docs) {
           if(err){
@@ -599,10 +639,15 @@ function receivedMessage(event) {
             return ;
           }
           else if(docs.length != 0){ //found user
-            console.log('-----found user-----');
+            
+            console.log('<<<<<<<<<<<<<   IMG-begin   >>>>>>>>>>>');
             lastMessage = docs[0].lastMessage;
+            
+            console.log(messageAttachments[0]);
+            console.log(messageAttachments[0].payload.url);
+
             // if(lastMessage == "image") {
-              appClarifai.models.predict(Clarifai.GENERAL_MODEL, messageAttachments.url).then(
+              appClarifai.models.predict(Clarifai.GENERAL_MODEL, messageAttachments[0].payload.url).then(
                 function(response) {
                   console.log(response);
                 },
@@ -611,6 +656,7 @@ function receivedMessage(event) {
                 }
               );
             // }
+            console.log('<<<<<<<<<<<<<   IMG-end   >>>>>>>>>>>');
           } 
           else{//user not found
             console.log('-----user not found-----');
@@ -620,6 +666,7 @@ function receivedMessage(event) {
             };
             db.collection('user').insert(user);          
           }
+      });
     }
     console.log(messageAttachments);
   }
