@@ -472,20 +472,22 @@ function receivedMessage(event) {
                 if(error) {
                     console.log(error);
                 } else {
-                    console.log("--------------------------------body simisimi--------------------------------"); 
-                    console.log(body);
-                    console.log("--------------------------------body[ result ]--------------------------------");
-                    var parsedBody = JSON.parse(body);
-                    console.log(parsedBody["result"]);
+                    if(response.statusCode == 200){
+                        console.log("--------------------------------body simisimi--------------------------------"); 
+                        console.log(body);
+                        console.log("--------------------------------body[ result ]--------------------------------");
+                        var parsedBody = JSON.parse(body);
+                        console.log(parsedBody["result"]);
 
 
-                    if(parsedBody["result"] == 100) {
-                        console.log("--------------------------------body[ response ]--------------------------------");
-                        console.log(parsedBody["response"]);
-                        sendTextMessage(senderID, parsedBody["response"]);
-                    }
-                    else {
-                        sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
+                        if(parsedBody["result"] == 100) {
+                            console.log("--------------------------------body[ response ]--------------------------------");
+                            console.log(parsedBody["response"]);
+                            sendTextMessage(senderID, parsedBody["response"]);
+                        }
+                        else {
+                            sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
+                        }
                     }
                 }
 
