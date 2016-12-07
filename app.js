@@ -479,7 +479,7 @@ function receivedMessage(event) {
           console.log('REST TO GraphAPI');
           if(messageText.indexOf('top') !=-1 && (messageText.indexOf('picture')!= -1 || messageText.indexOf('photo')!= -1)){
             var photos;
-            db.collection('facebook').findOne({senderID: senderId}, function(err, document) {
+            db.collection('facebook').findOne({senderID: senderID}, function(err, document) {
               if(err){
                 console.log("Error add FacebookId",err);
               }
@@ -488,6 +488,9 @@ function receivedMessage(event) {
                   photos = document.photos.data;
                   photos.sort(function(a, b){return b.likes.summary.total_count-a.likes.summary.total_count}); 
                   console.log("photos >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",photos.slice(0, 9));
+              }
+              else{
+                console.log("not fount senderId")
               }
             });
           }
