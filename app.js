@@ -290,6 +290,7 @@ function receivedMessage(event) {
         }
         else if(docs.length != 0){//found user
           console.log('-----found user-----');
+          console.log(docs);
           console.log('lastMessage = ');
           lastMessage = docs[0]['lastMessage'];
           //console.log(lastMessage);
