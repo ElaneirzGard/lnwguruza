@@ -477,7 +477,13 @@ function receivedMessage(event) {
           sendTextMessage(senderID, "Ok, Give me the question about you.");          
         }
         else if(messageText.indexOf('ห่วย')!=-1){
-          var recipientId = senderID; 
+          var recipientId = senderID;
+          // type: "web_url",
+                    // url: "https://www.oculus.com/en-us/rift/",
+                    // title: "Open Web URL" 
+                    // type: "phone_number",
+                    // title: "Call Phone Number",
+                    // payload: "+16505551234"
           var messageData = {
             recipient: {
               id: recipientId
@@ -487,19 +493,19 @@ function receivedMessage(event) {
                 type: "template",
                 payload: {
                   template_type: "button",
-                  text: "This is test text",
+                  text: "แอพของเราห่วยแค่ไหน???",
                   buttons:[{
-                    type: "web_url",
-                    url: "https://www.oculus.com/en-us/rift/",
-                    title: "Open Web URL"
-                  }, {
                     type: "postback",
-                    title: "Trigger Postback",
+                    title: "โคตรห่วย",
                     payload: "DEVELOPER_DEFINED_PAYLOAD"
                   }, {
-                    type: "phone_number",
-                    title: "Call Phone Number",
-                    payload: "+16505551234"
+                    type: "postback",
+                    title: "เฉยๆอะ โอ๋ๆ",
+                    payload: "DEVELOPER_DEFINED_PAYLOAD"
+                  }, {
+                    type: "postback",
+                    title: "ดีเลิศประเสริฐศรี!",
+                    payload: "DEVELOPER_DEFINED_PAYLOAD"
                   }]
                 }
               }
