@@ -1,13 +1,3 @@
-/*
- * Copyright 2016-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-/* jshint node: true, devel: true */
 'use strict';
 
 const 
@@ -68,18 +58,6 @@ MongoClient.connect(url, function(err, database) {
   assert.equal(null, err);
   db = database;
   console.log("Connected successfully to server");
-  console.log("db ========",db);
-  console.log("db.collection ========",db.collection);
-  console.log("db.collection.findOne ========",db.collection.findOne);
-  db.collection.findOne({senderID: "1183871534981346"}, function(err, document) {
-    if(err){
-      console.log("Error add FacebookId",err);
-    }
-    else if(document){
-      db.collection.update({senderID: "1183871534981346"}, {$set: {facebookID:"123"}});
-    }
-    res.send("success");
-  });
   //db.close();
 });
 
@@ -216,11 +194,7 @@ app.get('/loginfb/:senderId', function(req, res){
                     FB.api('/me', {fields: 'id'}, function(response) {
                       fbId = response.id;
                       console.log(${senderId})
-                      $.post("/addFacebookId",
-                      {
-                          senderId: ${senderId},
-                          facebookId: fbId
-                      },
+                      $.get("/addFacebookId/"+${senderId}+"/"+fbId,
                       function(data, status){
                         console.log(data);
                       });
@@ -232,23 +206,20 @@ app.get('/loginfb/:senderId', function(req, res){
   `);
 });
 
-app.post('/addFacebookId', function (req, res) {
-  var senderId = req.body.senderId;
-  var facebookId = req.body.facebookId;
+app.get('/addFacebookId/:senderId/:facebookId', function (req, res) {
+  var senderId = req.params.senderId;
+  var facebookId = req.params.facebookId;
   var user = {
     senderID: senderId,
     facebookID: facebookId
   };
-  console.log("db >>>>>>>>>>>>>>",db)
-  console.log("db collection >>>>>>>>>>>>>>",db.collection)
-  console.log("db>>>>>>>>>>>>>>",db.collection.findOne)
 
-  db.collection.findOne({senderID: senderId}, function(err, document) {
+  db.collection('user').findOne({senderID: senderId}, function(err, document) {
     if(err){
       console.log("Error add FacebookId",err);
     }
     else if(document){
-      db.collection.update({senderID: senderId}, {$set: {facebookID:facebookId}});
+      db.collection('user').update({senderID: senderId}, {$set: {facebookID:facebookId}});
     }
     else{
       db.collection('user').insert(user);     
@@ -484,24 +455,37 @@ function receivedMessage(event) {
           };
           db.collection('user').insert(user);          
         }
-        //======= start check ======
-        // ==== check last message ====
         if(lastMessage.indexOf('cal')!= -1 || lastMessage.indexOf('wolfram')!= -1){
           console.log('REST TO Wolfram');
           console.log(messageText);
           sendTextMessage(senderID, messageText);
         }
-        if(lastMessage.indexOf('kow')!= -1 || lastMessage.indexOf('wiki')!= -1){
+        else if(lastMessage.indexOf('know')!= -1 || lastMessage.indexOf('wiki')!= -1){
           console.log('REST TO Wiki');
           console.log(messageText);
+          var request = require('request');
+          request({
+              url: 'https://en.wikipedia.org/w/api.php?action=query&titles='+messageText+'&prop=revisions&rvprop=content&format=json', //URL to hit
+              // qs: {action: 'query', time: +new Date()}, //Query string data
+              method: 'GET', //Specify the method
+              headers: { //We can define headers too
+                  'Content-Type': 'MyContentType',
+                  'Custom-Header': 'Custom Value'
+              }
+          }, function(error, response, body){
+              if(error) {
+                  console.log(error);
+              } else {
+                  console.log(response.statusCode, body);
+              }
+          });
           sendTextMessage(senderID, messageText);
         }
-        //==== check current message ====
-        if(messageText.indexOf('cal')==-1 || messageText.indexOf('wolfram')!= -1){// calculate
-          sendTextMessage(senderID, "Ok, Give me the question");
+        else if(messageText.indexOf('cal')==-1 || messageText.indexOf('wolfram')!= -1){// calculate
+          sendTextMessage(senderID, "Ok, Give me the question1");
         }
-        if(messageText.indexOf('know')==-1 || messageText.indexOf('wiki')!= -1){// search wiki
-          sendTextMessage(senderID, "Ok, Give me the question");
+        else if(messageText.indexOf('know')==-1 || messageText.indexOf('wiki')!= -1){// search wiki
+          sendTextMessage(senderID, "Ok, Give me the question2");
         }
         ///graph
         else{// simsimi
