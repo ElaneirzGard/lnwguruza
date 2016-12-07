@@ -79,7 +79,6 @@ MongoClient.connect(url, function(err, database) {
       console.log(">>>>>>>>>> ",document)
       db.collection('user').update({senderID: "1183871534981346"}, {$set: {facebookID:"123"}});
     }
-    res.send("success");
   });
   //db.close();
 });
