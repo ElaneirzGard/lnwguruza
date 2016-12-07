@@ -310,7 +310,7 @@ function receivedMessage(event) {
           console.log('-----found user-----');
           console.log(docs);
           console.log('lastMessage = ');
-          lastMessage = docs[0]['lastMessage'];          
+          lastMessage = docs[0].lastMessage;          
           db.collection('user').update(
             { senderID: senderID },
             { senderID: senderID, lastMessage : messageText}, 
@@ -330,6 +330,7 @@ function receivedMessage(event) {
           };
           db.collection('user').insert(user);          
         }
+
         if(lastMessage.indexOf('cal') || lastMessage.indexOf('wolfram')){
           console.log('REST TO Wolfram');
           console.log(messageText);
