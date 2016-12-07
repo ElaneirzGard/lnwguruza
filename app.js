@@ -600,7 +600,7 @@ function receivedMessage(event) {
     */
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
-    if(messageAttachments.type == 'image') {
+    if(messageAttachments[0].type == 'image') {
       var lastMessage = ''; 
       db.collection('user').find({senderID: senderID }).toArray(function(err, docs) {
           if(err){
@@ -612,7 +612,7 @@ function receivedMessage(event) {
             console.log('<<<<<<<<<<<<<   IMG-begin   >>>>>>>>>>>');
             lastMessage = docs[0].lastMessage;
             // if(lastMessage == "image") {
-              appClarifai.models.predict(Clarifai.GENERAL_MODEL, messageAttachments.url).then(
+              appClarifai.models.predict(Clarifai.GENERAL_MODEL, messageAttachments[0].url).then(
                 function(response) {
                   console.log(response);
                 },
