@@ -782,7 +782,8 @@ function receivedMessage(event) {
                   console.log(concepts);
                   let conceptsString = "";
                   for(let concept of concepts) {
-                    conceptsString += `${concept.name} (${(concept.value*100.0).toFixed(2)})\n`;
+                    // conceptsString += `${concept.name} ${(concept.value*100.0).toFixed(2)}%\n`;
+                    conceptsString += `${concept.name} `;
                   }
                   console.log("Concepts: ");
                   console.log(conceptsString, "\n\n");
