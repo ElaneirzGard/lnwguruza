@@ -869,7 +869,7 @@ function receivedPostback(event) {
   // let them know it was successful
   //postback called
   if(payload == 'rate_verylow'){
-    sendTextMessage(senderID, "ข้ารู้ข้าเห็นข้าเป็น ai ผิดไปแล้วครับ จะพยายามเก่งขึ้นฮะTT");
+    // sendTextMessage(senderID, "ข้ารู้ข้าเห็นข้าเป็น ai ผิดไปแล้วครับ จะพยายามเก่งขึ้นฮะTT");
     var receiptId = senderID;
     var messageData = {
     recipient: {
