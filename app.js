@@ -522,14 +522,10 @@ function receivedMessage(event) {
                           console.log("--------------------------------body[ result ]--------------------------------");
                           var parsedBody = JSON.parse(body);
                           console.log(parsedBody["result"]);
-                          if(parsedBody["result"] == 100) {
                               console.log("--------------------------------body[ response ]--------------------------------");
-                              console.log(parsedBody["response"]);
-                              sendTextMessage(senderID, parsedBody["response"]);
-                          }
-                          else {
-                              sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
-                          }
+                              sendTextMessage(senderID, parsedBody["answers"][0]["action"][0]["expression"]);
+                          //    sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
+                          
                       }
                   }
 
