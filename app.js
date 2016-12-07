@@ -332,7 +332,7 @@ function receivedMessage(event) {
           db.collection('user').insert(user);          
         }
 
-        if(lastMessage.indexOf('cal')){
+        if(lastMessage.indexOf('cal')!= -1 || lastMessage.indexOf('wolfram')!= -1){
           console.log('REST TO Wolfram');
           console.log(messageText);
           sendTextMessage(senderID, messageText);
