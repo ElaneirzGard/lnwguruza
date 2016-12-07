@@ -612,6 +612,10 @@ function receivedMessage(event) {
             
             console.log('<<<<<<<<<<<<<   IMG-begin   >>>>>>>>>>>');
             lastMessage = docs[0].lastMessage;
+            
+            console.log(messageAttachments[0];
+            console.log(messageAttachments[0].url);
+
             // if(lastMessage == "image") {
               appClarifai.models.predict(Clarifai.GENERAL_MODEL, messageAttachments[0].url).then(
                 function(response) {
