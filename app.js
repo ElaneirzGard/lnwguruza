@@ -276,13 +276,13 @@ function receivedMessage(event) {
     // If we receive a text message, check to see if it matches any special
     // keywords and send back the corresponding example. Otherwise, just echo
     // the text we received.
-    // db.collection('fb-data').find({sender_id: senderID }).toArray(function(err, docs) {
-    // //db.collection('fb-data').findOne({sender_id: senderID }, function(err, docs) {
-    //     if(err){
-    //       console.log('error!');
-    //       return ;
-    //     }
-    //     console.log(docs);
+    db.collection('fb-data').find({sender_id: senderID }).toArray(function(err, docs) {
+    //db.collection('fb-data').findOne({sender_id: senderID }, function(err, docs) {
+        if(err){
+          console.log('error!');
+          return ;
+        }
+        console.log(docs);
         // if(err){
         //   console.log('error!');
         //   return ;
@@ -310,7 +310,7 @@ function receivedMessage(event) {
         //   };
         //   db.fb-data.insert(user);          
         // }
-    //});
+    });
     if(messageText.indexOf('cal')){//Wolfram
 
     }
