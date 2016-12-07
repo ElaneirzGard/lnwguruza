@@ -164,7 +164,11 @@ app.get('/loginfb/:senderId', function(req, res){
                     FB.api('/me', {fields: 'id'}, function(response) {
                       fbId = response.id;
                       console.log(${senderId})
-                      $.get("/addFacebookId/"+${senderId}+"/"+fbId,
+                      $.post("/addFacebookId",
+                      {
+                        senderId: ${senderId},
+                        facebookId: fbId
+                      },
                       function(data, status){
                         console.log(data);
                       });
@@ -176,9 +180,10 @@ app.get('/loginfb/:senderId', function(req, res){
   `);
 });
 
-app.get('/addFacebookId/:senderId/:facebookId', function (req, res) {
-  var senderId = req.params.senderId;
-  var facebookId = req.params.facebookId;
+app.post('/addFacebookId/:senderId/:facebookId', function (req, res) {
+  console.log("==================",req.body,"==================")
+  var senderId = req.body.senderId;
+  var facebookId = req.body.facebookId;
   var user = {
     senderID: senderId,
     facebookID: facebookId
@@ -549,7 +554,7 @@ function receivedMessage(event) {
                   } else {
                 console.log("start simsimi 4");
                 console.log("--response.statusCode-- > ".concat(response.statusCode));
-                      if(response.statusCode == 200 || response.statusCode == 502 ){
+                      if(response.statusCode == 200 ){
                           console.log("--------------------------------body simisimi--------------------------------"); 
                           console.log(body);
                           console.log("--------------------------------body[ result ]--------------------------------");
@@ -689,11 +694,11 @@ function receivedMessage(event) {
                   for(let concept of concepts) {
                     conceptsString += `${concept.name} (${(concept.value*100.0).toFixed(2)})\n`;
                   }
-                  
+                  console.log("Concepts: ");
+                  console.log(conceptsString, "\n\n");
+
                   let toBeSend = "รูปนี้เป็นรูปเกี่ยวกับ : \n"+conceptString;
                   sendTextMessage(senderID, toBeSend);
-                  
-                  console.log(conceptsString, "\n\n");
                 },
                 function(err) {
                   console.error("error: image processing clarifal");
