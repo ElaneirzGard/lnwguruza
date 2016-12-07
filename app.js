@@ -477,6 +477,7 @@ function receivedMessage(event) {
           sendTextMessage(senderID, "Ok, Give me the question about you.");          
         }
         else if(messageText.indexOf('ประเมิณ')!=-1){
+          var recipientId = senderID; 
           var messageData = {
               recipient: {
                 id: recipientId
