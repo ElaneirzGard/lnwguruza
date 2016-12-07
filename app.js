@@ -288,7 +288,7 @@ function receivedMessage(event) {
           console.log('error!');
           return ;
         }
-        else if(docs){//found user
+        else if(docs.length != 0){//found user
           console.log('-----found user-----');
           console.log('lastMessage = ');
           lastMessage = docs[0]['lastMessage'];
