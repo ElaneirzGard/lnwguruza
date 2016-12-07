@@ -21,7 +21,7 @@ const
 var app = express();
 app.set('port', process.env.PORT || 5000);
 app.set('view engine', 'ejs');
-app.use(bodyParser.json({ verify: verifyRequestSignature }));
+// app.use(bodyParser.json({ verify: verifyRequestSignature }));
 app.use(express.static('public'));
 
 //simsimi
@@ -60,7 +60,7 @@ var MongoClient = require('mongodb').MongoClient
   , assert = require('assert');
 
 // Connection URL
-var url = "mongodb://Admin:password1234@ds127988.mlab.com:27988/fb-chat-bot-db";
+var url = "mongodb://Admin:password1234@ds127968.mlab.com:27968/fb-chat-bot-db";
 
 // Use connect method to connect to the server
 var db;
