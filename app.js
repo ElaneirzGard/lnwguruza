@@ -655,6 +655,8 @@ function receivedMessage(event) {
               appClarifai.models.predict(Clarifai.GENERAL_MODEL, imageUrl).then(
                 function(response) {
                   let concepts = response.data.outputs[0].data.concepts;
+                  console.log("!!!!!!!!!! Success-image !!!!!!!!!!!");
+                  console.log(concepts);
                   let conceptsString = "";
                   for(let concept of concepts) {
                     conceptsString += `${concept.name} (${(concept.value*100.0).toFixed(2)})\n`;
@@ -664,7 +666,6 @@ function receivedMessage(event) {
                   sendTextMessage(senderID, toBeSend);
                   
                   console.log(conceptsString, "\n\n");
-
                 },
                 function(err) {
                   console.error("error: image processing clarifal");
