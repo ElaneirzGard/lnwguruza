@@ -91,124 +91,116 @@ app.get('/loginfb/:senderId', function(req, res){
   var senderId = req.params.senderId;
   console.log("loginfb as ", senderId);
   res.send(`
-    <!-- 
+            <html>
+              <head>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+                <title>Messenger Demo</title>
+              </head>
+              <body>
+                <script>
+                  window.fbAsyncInit = function() {
+                    FB.init({
+                      appId: '727530460757518',
+                      xfbml: true,
+                      version: 'v2.6'
+                    });
+                  };
 
-Copyright 2016-present, Facebook, Inc.
-All rights reserved.
+                  (function(d, s, id){
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) {return;}
+                    js = d.createElement(s); js.id = id;
+                    js.src = "//connect.facebook.net/en_US/sdk.js";
+                    fjs.parentNode.insertBefore(js, fjs);
+                  }(document, 'script', 'facebook-jssdk'));
+                </script>
 
-This source code is licensed under the license found in the
-LICENSE file in the root directory of this source tree.
+                <h1>Messenger Demo</h1>
 
--->
-<html>
-  <head>
-    <title>Messenger Demo</title>
-  </head>
-  <body>
-    <script>
-      window.fbAsyncInit = function() {
-        FB.init({
-          appId: '727530460757518',
-          xfbml: true,
-          version: 'v2.6'
-        });
-      };
+                <div>
+                  <p>The "Send to Messenger" plugin will trigger an authentication callback to your webhook.</p>
 
-      (function(d, s, id){
-         var js, fjs = d.getElementsByTagName(s)[0];
-         if (d.getElementById(id)) {return;}
-         js = d.createElement(s); js.id = id;
-         js.src = "//connect.facebook.net/en_US/sdk.js";
-         fjs.parentNode.insertBefore(js, fjs);
-       }(document, 'script', 'facebook-jssdk'));
-    </script>
+                  <div class="fb-send-to-messenger" 
+                    messenger_app_id='727530460757518'
+                    page_id='1868951300006199'
+                    data-ref="PASS_THROUGH_PARAM" 
+                    color="blue" 
+                    size="standard">
+                  </div>
+                </div>
 
-    <h1>Messenger Demo</h1>
+                <div>
+                  <p>The "Message Us" plugin takes the user directly to Messenger and into a thread with your Page.</p>
 
-    <div>
-      <p>The "Send to Messenger" plugin will trigger an authentication callback to your webhook.</p>
+                  <div class="fb-messengermessageus" 
+                    messenger_app_id='727530460757518'
+                    page_id='1868951300006199'
+                    color="blue"
+                    size="standard">
+                  </div>
+                </div>
 
-      <div class="fb-send-to-messenger" 
-        messenger_app_id='727530460757518'
-        page_id='1868951300006199'
-        data-ref="PASS_THROUGH_PARAM" 
-        color="blue" 
-        size="standard">
-      </div>
-    </div>
+              </body>
+            </html>
 
-    <div>
-      <p>The "Message Us" plugin takes the user directly to Messenger and into a thread with your Page.</p>
-
-      <div class="fb-messengermessageus" 
-        messenger_app_id='727530460757518'
-        page_id='1868951300006199'
-        color="blue"
-        size="standard">
-      </div>
-    </div>
-
-  </body>
-</html>
-
-<script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '727530460757518',
-      xfbml      : true,
-      version    : 'v2.8'
-    });
-    FB.AppEvents.logPageView();
-  };
-
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-
-  //  FB.ui(
-  //   {
-  //     method: 'share',
-  //     href: 'https://developers.facebook.com/docs/'
-  //   }, function(response){});
-
-
-  //   FB.ui({
-  //     method: 'share_open_graph',
-  //     action_type: 'og.likes',
-  //     action_properties: JSON.stringify({
-  //       object:'https://developers.facebook.com/docs/',
-  //     })
-  //   }, function(response){
-  //     // Debug response (optional)
-  //     console.log(response);
-  //   });
-
-    
-
-    function myFacebookLogin() {
-      var fbId = ""
-      FB.login(function(){
-            // Note: The call will only work if you accept the permission request
-              FB.api('/me', {fields: 'id'}, function(response) {
-                fbId = response.id;
-                FB.api('/'+fbId, {fields: 'email,education,id,birthday,first_name,last_name,gender,interested_in,friends,likes'}, function(response) {
-                  console.log(response)
+            <script>
+              window.fbAsyncInit = function() {
+                FB.init({
+                  appId      : '727530460757518',
+                  xfbml      : true,
+                  version    : 'v2.8'
                 });
-              });
-          }, {scope: 'email,publish_actions,user_likes,user_friends,user_status,user_posts,user_relationships,user_relationship_details,user_photos,user_location,user_hometown,user_games_activity,user_religion_politics,user_tagged_places,user_videos,user_website,user_work_history'});  
-    }
+                FB.AppEvents.logPageView();
+              };
 
-    
-</script>
+              (function(d, s, id){
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {return;}
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+              }(document, 'script', 'facebook-jssdk'));
 
-<button onclick="myFacebookLogin()">Login with Facebook</button>
+                function myFacebookLogin() {
+                  var fbId = ""
+                  FB.login(function(){
+                    FB.api('/me', {fields: 'id'}, function(response) {
+                      fbId = response.id;
+                      $.post("/addFacebookId",
+                      {
+                          senderId: ${{senderId}},
+                          facebookId: fbId
+                      },
+                      function(data, status){
+                          alert("Data: " + data + "\nStatus: " + status);
+                      });
+                    });
+                  }, {scope: 'email,publish_actions,user_likes,user_friends,user_status,user_posts,user_relationships,user_relationship_details,user_photos,user_location,user_hometown,user_games_activity,user_religion_politics,user_tagged_places,user_videos,user_website,user_work_history'});  
+                }
+            </script>
+            <button onclick="myFacebookLogin()">Login with Facebook</button>
   `);
 });
 
+app.post('/addFacebookId', function (req, res) {
+  var senderId = req.body.senderId;
+  var facebookId = req.body.facebookId;
+  var user = {
+    senderID: senderId,
+    facebookID: facebookId
+  };
+  db.collection.findOne({senderID: senderId}, function(err, document) {
+    if(err){
+      console.log("Error add FacebookId",err);
+    }
+    else if(document){
+      db.collection.update({senderID: senderId}, {$set: {facebookID:facebookId}});
+    }
+    else{
+      db.collection('user').insert(user);     
+    }
+  });
+});
 
 app.get('/webhook', function(req, res) {
   if (req.query['hub.mode'] === 'subscribe' &&

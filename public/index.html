@@ -97,12 +97,12 @@ LICENSE file in the root directory of this source tree.
     
 
     function myFacebookLogin() {
-      var id = ""
+      var fbId = ""
       FB.login(function(){
             // Note: The call will only work if you accept the permission request
               FB.api('/me', {fields: 'id'}, function(response) {
-                id = response.id;
-                FB.api('/'+id, {fields: 'email,education,id,birthday,first_name,last_name,gender,interested_in,friends,likes'}, function(response) {
+                fbId = response.id;
+                FB.api('/'+fbId, {fields: 'email,education,id,birthday,first_name,last_name,gender,interested_in,friends,likes'}, function(response) {
                   console.log(response)
                 });
               });
