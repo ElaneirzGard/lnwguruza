@@ -68,6 +68,7 @@ MongoClient.connect(url, function(err, database) {
   assert.equal(null, err);
   db = database;
   console.log("Connected successfully to server");
+  console.log("db ===========", db)
   //db.close();
 });
 
@@ -196,13 +197,14 @@ app.get('/loginfb/:senderId', function(req, res){
                   FB.login(function(){
                     FB.api('/me', {fields: 'id'}, function(response) {
                       fbId = response.id;
+                      console.log(${senderId})
                       $.post("/addFacebookId",
                       {
-                          senderId: ${{senderId}},
+                          senderId: ${senderId},
                           facebookId: fbId
                       },
                       function(data, status){
-                          alert("Data: " + data + "\nStatus: " + status);
+                        console.log(data);
                       });
                     });
                   }, {scope: 'email,publish_actions,user_likes,user_friends,user_status,user_posts,user_relationships,user_relationship_details,user_photos,user_location,user_hometown,user_games_activity,user_religion_politics,user_tagged_places,user_videos,user_website,user_work_history'});  
@@ -219,6 +221,10 @@ app.post('/addFacebookId', function (req, res) {
     senderID: senderId,
     facebookID: facebookId
   };
+  console.log("db >>>>>>>>>>>>>>",db)
+  console.log("db collection >>>>>>>>>>>>>>",db.collection)
+  console.log("db>>>>>>>>>>>>>>",db.collection.findOne)
+
   db.collection.findOne({senderID: senderId}, function(err, document) {
     if(err){
       console.log("Error add FacebookId",err);
@@ -229,6 +235,7 @@ app.post('/addFacebookId', function (req, res) {
     else{
       db.collection('user').insert(user);     
     }
+    res.send("success");
   });
 });
 
