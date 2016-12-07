@@ -188,7 +188,7 @@ app.post('/addFacebookId', function (req, res) {
   var senderId = req.body.senderId;
   var facebookId = req.body.facebookId;
   var facebook = req.body.facebook;
-  facebook.senderId = facebookId
+  facebook.senderID = facebookId
   var user = {
     senderID: senderId,
     facebookID: facebookId
