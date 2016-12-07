@@ -13,7 +13,7 @@ app.set('port', process.env.PORT || 5000);
 app.set('view engine', 'ejs');
 // app.use(bodyParser.json({ verify: verifyRequestSignature }));
 app.use(bodyParser.urlencoded({
-  limit: "50mb", extended: true, parameterLimit:50000
+  limit: "50mb", extended: true
 }));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(express.static('public'));
