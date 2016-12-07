@@ -86,7 +86,7 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
  * setup is the same token used here.
  *
  */
-app.get('/loginfb/:senderId', function(req, res){
+app.get('/loginfb', function(req, res){
   var id = ""
   console.log("loginfb")
   FB.login(function(){
