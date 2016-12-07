@@ -471,6 +471,51 @@ function receivedMessage(event) {
         else if(messageText.indexOf('about me')!=-1){
           sendTextMessage(senderID, "Ok, Give me the question about you.");          
         }
+        else if(messageText.indexOf('ประเมิณ')!=-1){
+          var messageData = {
+              recipient: {
+                id: recipientId
+              },
+              message: {
+                attachment: {
+                  type: "template",
+                  payload: {
+                    template_type: "generic",
+                    elements: [{
+                      title: "rift",
+                      subtitle: "Next-generation virtual reality",
+                      item_url: "https://www.oculus.com/en-us/rift/",               
+                      image_url: SERVER_URL + "/assets/rift.png",
+                      buttons: [{
+                        type: "web_url",
+                        url: "https://www.oculus.com/en-us/rift/",
+                        title: "Open Web URL"
+                      }, {
+                        type: "postback",
+                        title: "Call Postback",
+                        payload: "Payload for first bubble",
+                      }],
+                    }, {
+                      title: "touch",
+                      subtitle: "Your Hands, Now in VR",
+                      item_url: "https://www.oculus.com/en-us/touch/",               
+                      image_url: SERVER_URL + "/assets/touch.png",
+                      buttons: [{
+                        type: "web_url",
+                        url: "https://www.oculus.com/en-us/touch/",
+                        title: "Open Web URL"
+                      }, {
+                        type: "postback",
+                        title: "Call Postback",
+                        payload: "Payload for second bubble",
+                      }]
+                    }]
+                  }
+                }
+              }
+            };  
+            callSendAPI(messageData);
+        }
         ///graph
         else{// simsimi
             //simsimi
@@ -643,11 +688,11 @@ function receivedMessage(event) {
                   for(let concept of concepts) {
                     conceptsString += `${concept.name} (${(concept.value*100.0).toFixed(2)})\n`;
                   }
-                  
+                  console.log("Concepts: ");
+                  console.log(conceptsString, "\n\n");
+
                   let toBeSend = "รูปนี้เป็นรูปเกี่ยวกับ : \n"+conceptString;
                   sendTextMessage(senderID, toBeSend);
-                  
-                  console.log(conceptsString, "\n\n");
                 },
                 function(err) {
                   console.error("error: image processing clarifal");
