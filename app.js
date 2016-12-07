@@ -13,9 +13,9 @@ app.set('port', process.env.PORT || 5000);
 app.set('view engine', 'ejs');
 // app.use(bodyParser.json({ verify: verifyRequestSignature }));
 app.use(bodyParser.urlencoded({
-  limit: "50mb", parameterLimit: 50000
+  limit: "50mb", parameterLimit: 50000, type:'application/x-www-form-urlencoding'
 }));
-app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.json({limit: '50mb', type: 'application/json'}));
 app.use(express.static('public'));
 
 var MongoClient = require('mongodb').MongoClient
