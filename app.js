@@ -461,41 +461,84 @@ function receivedMessage(event) {
         ///graph
         else{// simsimi
             //simsimi
-            console.log("start simsimi");
-            var simsimi_key = "b6484249-52b1-4053-9e93-edaaace7c8fd";
-            var thai_lang = "th";
-            var eng_lang = "en";
-            //var text = "Who are you?";
             var text = messageText;
-            var request = require('request');
-            request({
-                uri: "http://sandbox.api.simsimi.com/request.p?key=".concat(simsimi_key)+"&lc=".concat(eng_lang)+"&ft=1.0&text=".concat(text),
-                method: "GET"
-            }, function(error, response, body) {
-                if(error) {
-                    console.log(error);
-                } else {
-                    if(response.statusCode == 200){
-                        console.log("--------------------------------body simisimi--------------------------------"); 
-                        console.log(body);
-                        console.log("--------------------------------body[ result ]--------------------------------");
-                        var parsedBody = JSON.parse(body);
-                        console.log(parsedBody["result"]);
+            thaiChar = ['ก','ข','ฃ','ค','ฅ','ฆ','ง','จ','ฉ','ช','ซ','ฌ','ญ','ฎ','ฏ','ฐ','ฑ','ฒ','ณ','ด','ต','ถ','ท','ธ','น','บ','ป','ผ','ฝ','พ','ฟ','ภ','ม','ย','ร','ล','ว','ศ','ษ','ส','ห','ฬ','อ','ฮ'];
+            var isThai = false;
+            for(var i =0;i<44;i++){
+              if(text.indexof(thaiChar[i]) != -1){
+                isThai = true;
+                break;
+              }
+            }
+            if(isThai){//sim simi
+              console.log("start simsimi");
+              var simsimi_key = "b6484249-52b1-4053-9e93-edaaace7c8fd";
+              var thai_lang = "th";
+              var eng_lang = "en";
+              //var text = "Who are you?";
+              
+              var request = require('request');
+              request({
+                  uri: "http://sandbox.api.simsimi.com/request.p?key=".concat(simsimi_key)+"&lc=".concat(eng_lang)+"&ft=1.0&text=".concat(text),
+                  method: "GET"
+              }, function(error, response, body) {
+                  if(error) {
+                      console.log(error);
+                  } else {
+                      if(response.statusCode == 200){
+                          console.log("--------------------------------body simisimi--------------------------------"); 
+                          console.log(body);
+                          console.log("--------------------------------body[ result ]--------------------------------");
+                          var parsedBody = JSON.parse(body);
+                          console.log(parsedBody["result"]);
+                          if(parsedBody["result"] == 100) {
+                              console.log("--------------------------------body[ response ]--------------------------------");
+                              console.log(parsedBody["response"]);
+                              sendTextMessage(senderID, parsedBody["response"]);
+                          }
+                          else {
+                              sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
+                          }
+                      }
+                  }
 
+              });
+              console.log("end simsimi");
+              }
+            else{//susi
+              console.log("start susi");
+              var text = messageText;
+              var request = require('request');
+              request({
+                  uri: "http://api.asksusi.com/susi/chat.json?timezoneOffset=-420&q=".concat(text),
+                  method: "GET"
+              }, function(error, response, body) {
+                  if(error) {
+                      console.log(error);
+                  } else {
+                      if(response.statusCode == 200){
+                          console.log("--------------------------------body susi--------------------------------"); 
+                          console.log(body);
+                          console.log("--------------------------------body[ result ]--------------------------------");
+                          var parsedBody = JSON.parse(body);
+                          console.log(parsedBody["result"]);
+                          if(parsedBody["result"] == 100) {
+                              console.log("--------------------------------body[ response ]--------------------------------");
+                              console.log(parsedBody["response"]);
+                              sendTextMessage(senderID, parsedBody["response"]);
+                          }
+                          else {
+                              sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
+                          }
+                      }
+                  }
 
-                        if(parsedBody["result"] == 100) {
-                            console.log("--------------------------------body[ response ]--------------------------------");
-                            console.log(parsedBody["response"]);
-                            sendTextMessage(senderID, parsedBody["response"]);
-                        }
-                        else {
-                            sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
-                        }
-                    }
-                }
+              });
+              console.log("end susi");
+            }
+            
 
-            });
-            console.log("end simsimi");
+            
             //end simsimi
           //sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
         }
