@@ -68,6 +68,7 @@ MongoClient.connect(url, function(err, database) {
   assert.equal(null, err);
   db = database;
   console.log("Connected successfully to server");
+  console.log("db ==========", db);
   //db.close();
 });
 
