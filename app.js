@@ -25,13 +25,25 @@ app.use(bodyParser.json({ verify: verifyRequestSignature }));
 app.use(express.static('public'));
 
 
-const MongoClient = require('mongodb').MongoClient
-var db
-MongoClient.connect('mongodb://Roos:shv\'l,6f@ds127988.mlab.com:27988/fb-chat-bot-db', (err, database) => {
-  // ... start the server
-   if (err) return console.log(err)
-    db = database
-})
+var MongoClient = require('mongodb').MongoClient
+  , assert = require('assert');
+
+// Connection URL
+var url = "mongodb://Admin:password1234@ds127988.mlab.com:27988/fb-chat-bot-db";
+
+// Use connect method to connect to the server
+MongoClient.connect(url, function(err, db) {
+  assert.equal(null, err);
+  console.log("Connected successfully to server");
+  //db.close();
+});
+
+// const MongoClient = require('mongodb').MongoClient;
+// var db;
+// MongoClient.connect("mongodb://Roos:shv'l,6f@ds127988.mlab.com:27988/fb-chat-bot-db", (err, database) => {
+//    if (err) return console.log(err)
+//     db = database;
+// })
 
 
 /*
@@ -264,13 +276,13 @@ function receivedMessage(event) {
     // If we receive a text message, check to see if it matches any special
     // keywords and send back the corresponding example. Otherwise, just echo
     // the text we received.
-    db.collection('fb-data').find({sender_id: senderID }).toArray(function(err, docs) {
-    //db.collection('fb-data').findOne({sender_id: senderID }, function(err, docs) {
-        if(err){
-          console.log('error!');
-          return ;
-        }
-        console.log(docs);
+    // db.collection('fb-data').find({sender_id: senderID }).toArray(function(err, docs) {
+    // //db.collection('fb-data').findOne({sender_id: senderID }, function(err, docs) {
+    //     if(err){
+    //       console.log('error!');
+    //       return ;
+    //     }
+    //     console.log(docs);
         // if(err){
         //   console.log('error!');
         //   return ;
@@ -298,7 +310,7 @@ function receivedMessage(event) {
         //   };
         //   db.fb-data.insert(user);          
         // }
-    });
+    //});
     if(messageText.indexOf('cal')){//Wolfram
 
     }
