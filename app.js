@@ -90,18 +90,16 @@ app.get('/loginfb/:senderId', function(req, res){
   var id = ""
   var senderId = req.params.senderId;
   console.log("loginfb as ", senderId);
-  res.render('success');
-  // FB.login(function(){
-  //       // Note: The call will only work if you accept the permission request
-
-  //         FB.api('/me', {fields: 'id'}, function(response) {
-  //           id = response.id;
-  //           FB.api('/'+id, {fields: 'email,education,id,birthday,first_name,last_name,gender,interested_in,friends,likes'}, function(response) {
-  //             console.log(response)
-  //             res.redirect('/');
-  //           });
-  //         });
-  //     }, {scope: 'email,publish_actions,user_likes,user_friends,user_status,user_posts,user_relationships,user_relationship_details,user_photos,user_location,user_hometown,user_games_activity,user_religion_politics,user_tagged_places,user_videos,user_website,user_work_history'});
+  FB.login(function(){
+    // Note: The call will only work if you accept the permission request
+    FB.api('/me', {fields: 'id'}, function(response) {
+      id = response.id;
+      FB.api('/'+id, {fields: 'email,education,id,birthday,first_name,last_name,gender,interested_in,friends,likes'}, function(response) {
+        console.log(response)
+        res.render('success');        
+      });
+    });
+  }, {scope: 'email,publish_actions,user_likes,user_friends,user_status,user_posts,user_relationships,user_relationship_details,user_photos,user_location,user_hometown,user_games_activity,user_religion_politics,user_tagged_places,user_videos,user_website,user_work_history'});
 });
 
 
