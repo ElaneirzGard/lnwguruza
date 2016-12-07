@@ -203,7 +203,7 @@ app.post('/addFacebookId', function (req, res) {
   var senderId = req.body.senderId;
   var facebookId = req.body.facebookId;
   var facebook = req.body.facebook;
-  facebook.senderID = facebookId
+  facebook.senderID = senderId
   console.log("==================",facebook,"===================")
   var user = {
     senderID: senderId,
@@ -495,6 +495,7 @@ function receivedMessage(event) {
           console.log('REST TO GraphAPI');
           if(messageText.indexOf('top') !=-1 && (messageText.indexOf('picture')!= -1 || messageText.indexOf('photo')!= -1)){
             var photos;
+            console.log("senderID >>>>>>>>>>",senderID)
             db.collection('facebook').findOne({senderID: senderID}, function(err, document) {
               if(err){
                 console.log("Error add FacebookId",err);
@@ -506,7 +507,7 @@ function receivedMessage(event) {
                   console.log("photos >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",photos.slice(0, 9));
               }
               else{
-                console.log("not fount senderId")
+                console.log("not found senderId")
               }
             });
           }
