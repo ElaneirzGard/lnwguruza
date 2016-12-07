@@ -14,38 +14,6 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.json({ verify: verifyRequestSignature }));
 app.use(express.static('public'));
 
-//simsimi
-//console.log("start simsimi");
-//var simsimi_key = "b6484249-52b1-4053-9e93-edaaace7c8fd";
-//var thai_lang = "th";
-//var eng_lang = "en";
-//var text = "Who are you?"
-//
-//request({
-//    uri: "http://sandbox.api.simsimi.com/request.p?key=".concat(simsimi_key)+"&lc=".concat(eng_lang)+"&ft=1.0&text=".concat(text),
-//    method: "GET"
-//}, function(error, response, body) {
-//    console.log("--------------------------------body simisimi--------------------------------"); 
-//                console.log(body);
-//    console.log("--------------------------------body[ result ]--------------------------------");
-//    var parsedBody = JSON.parse(body);
-//    console.log(parsedBody["result"]);
-//
-//
-//    if(parsedBody["result"] == 100) {
-//        console.log("--------------------------------body[ response ]--------------------------------");
-//        console.log(parsedBody["response"]);
-//        //sendTextMessage(senderID, parsedBody["response"]);
-//    }
-//    else {
-//        console.log("---------------Sorry, I don't understand what you mean.---------------------");
-//        //sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
-//    }
-//
-//});
-//console.log("end simsimi");
-//end simsimi
-
 var MongoClient = require('mongodb').MongoClient
   , assert = require('assert');
 
@@ -481,11 +449,14 @@ function receivedMessage(event) {
           });
           sendTextMessage(senderID, messageText);
         }
-        else if(messageText.indexOf('cal')==-1 || messageText.indexOf('wolfram')!= -1){// calculate
+        else if(messageText.indexOf('cal') !=-1 || messageText.indexOf('wolfram')!= -1){// calculate
           sendTextMessage(senderID, "Ok, Give me the question1");
         }
-        else if(messageText.indexOf('know')==-1 || messageText.indexOf('wiki')!= -1){// search wiki
+        else if(messageText.indexOf('know') !=-1 || messageText.indexOf('wiki')!= -1){// search wiki
           sendTextMessage(senderID, "Ok, Give me the question2");
+        }
+        else if(messageText.indexOf('about me')==-1){
+          sendTextMessage(senderID, "Ok, Give me the question about you.");          
         }
         ///graph
         else{// simsimi
@@ -496,25 +467,31 @@ function receivedMessage(event) {
             var eng_lang = "en";
             //var text = "Who are you?";
             var text = messageText;
-
+            var request = require('request');
             request({
                 uri: "http://sandbox.api.simsimi.com/request.p?key=".concat(simsimi_key)+"&lc=".concat(eng_lang)+"&ft=1.0&text=".concat(text),
                 method: "GET"
             }, function(error, response, body) {
-                console.log("--------------------------------body simisimi--------------------------------"); 
-                console.log(body);
-                console.log("--------------------------------body[ result ]--------------------------------");
-                var parsedBody = JSON.parse(body);
-                console.log(parsedBody["result"]);
+                if(error) {
+                    console.log(error);
+                } else {
+                    if(response.statusCode == 200){
+                        console.log("--------------------------------body simisimi--------------------------------"); 
+                        console.log(body);
+                        console.log("--------------------------------body[ result ]--------------------------------");
+                        var parsedBody = JSON.parse(body);
+                        console.log(parsedBody["result"]);
 
 
-                if(parsedBody["result"] == 100) {
-                    console.log("--------------------------------body[ response ]--------------------------------");
-                    console.log(parsedBody["response"]);
-                    sendTextMessage(senderID, parsedBody["response"]);
-                }
-                else {
-                    sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
+                        if(parsedBody["result"] == 100) {
+                            console.log("--------------------------------body[ response ]--------------------------------");
+                            console.log(parsedBody["response"]);
+                            sendTextMessage(senderID, parsedBody["response"]);
+                        }
+                        else {
+                            sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
+                        }
+                    }
                 }
 
             });
