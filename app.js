@@ -68,7 +68,15 @@ MongoClient.connect(url, function(err, database) {
   assert.equal(null, err);
   db = database;
   console.log("Connected successfully to server");
-  console.log("db ==========", db);
+  db.collection.findOne({senderID: "1183871534981346"}, function(err, document) {
+    if(err){
+      console.log("Error add FacebookId",err);
+    }
+    else if(document){
+      db.collection.update({senderID: "1183871534981346"}, {$set: {facebookID:"123"}});
+    }
+    res.send("success");
+  });
   //db.close();
 });
 
