@@ -90,16 +90,123 @@ app.get('/loginfb/:senderId', function(req, res){
   var id = ""
   var senderId = req.params.senderId;
   console.log("loginfb as ", senderId);
-  FB.login(function(){
-    // Note: The call will only work if you accept the permission request
-    FB.api('/me', {fields: 'id'}, function(response) {
-      id = response.id;
-      FB.api('/'+id, {fields: 'email,education,id,birthday,first_name,last_name,gender,interested_in,friends,likes'}, function(response) {
-        console.log(response)
-        res.render('success');        
-      });
+  res.send(`
+    <!-- 
+
+Copyright 2016-present, Facebook, Inc.
+All rights reserved.
+
+This source code is licensed under the license found in the
+LICENSE file in the root directory of this source tree.
+
+-->
+<html>
+  <head>
+    <title>Messenger Demo</title>
+  </head>
+  <body>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId: '727530460757518',
+          xfbml: true,
+          version: 'v2.6'
+        });
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <h1>Messenger Demo</h1>
+
+    <div>
+      <p>The "Send to Messenger" plugin will trigger an authentication callback to your webhook.</p>
+
+      <div class="fb-send-to-messenger" 
+        messenger_app_id='727530460757518'
+        page_id='1868951300006199'
+        data-ref="PASS_THROUGH_PARAM" 
+        color="blue" 
+        size="standard">
+      </div>
+    </div>
+
+    <div>
+      <p>The "Message Us" plugin takes the user directly to Messenger and into a thread with your Page.</p>
+
+      <div class="fb-messengermessageus" 
+        messenger_app_id='727530460757518'
+        page_id='1868951300006199'
+        color="blue"
+        size="standard">
+      </div>
+    </div>
+
+  </body>
+</html>
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '727530460757518',
+      xfbml      : true,
+      version    : 'v2.8'
     });
-  }, {scope: 'email,publish_actions,user_likes,user_friends,user_status,user_posts,user_relationships,user_relationship_details,user_photos,user_location,user_hometown,user_games_activity,user_religion_politics,user_tagged_places,user_videos,user_website,user_work_history'});
+    FB.AppEvents.logPageView();
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+
+  //  FB.ui(
+  //   {
+  //     method: 'share',
+  //     href: 'https://developers.facebook.com/docs/'
+  //   }, function(response){});
+
+
+  //   FB.ui({
+  //     method: 'share_open_graph',
+  //     action_type: 'og.likes',
+  //     action_properties: JSON.stringify({
+  //       object:'https://developers.facebook.com/docs/',
+  //     })
+  //   }, function(response){
+  //     // Debug response (optional)
+  //     console.log(response);
+  //   });
+
+    
+
+    function myFacebookLogin() {
+      var fbId = ""
+      FB.login(function(){
+            // Note: The call will only work if you accept the permission request
+              FB.api('/me', {fields: 'id'}, function(response) {
+                fbId = response.id;
+                FB.api('/'+fbId, {fields: 'email,education,id,birthday,first_name,last_name,gender,interested_in,friends,likes'}, function(response) {
+                  console.log(response)
+                });
+              });
+          }, {scope: 'email,publish_actions,user_likes,user_friends,user_status,user_posts,user_relationships,user_relationship_details,user_photos,user_location,user_hometown,user_games_activity,user_religion_politics,user_tagged_places,user_videos,user_website,user_work_history'});  
+    }
+
+    
+</script>
+
+<button onclick="myFacebookLogin()">Login with Facebook</button>
+  `);
 });
 
 
