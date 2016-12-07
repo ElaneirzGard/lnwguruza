@@ -167,11 +167,11 @@ app.get('/loginfb/:senderId', function(req, res){
                       console.log(${senderId})
                       FB.api('/'+fbId, {fields: 'email,id,birthday,first_name,last_name,gender,interested_in'}, function(response_about) {
                         FB.api('/'+fbId, {fields: 'albums'}, function(response_albums) {
-                          for(var x of response_albums['data']){
+                          response_albums['data'].forEach(function(x){
                             if(x.name == "Profile Pictures"){
                               album_profile_id = x.id
                             }
-                          }
+                          });
                           FB.api('/'+album_profile_id, {fields: 'photos{link,likes.limit(0).summary(true)}'}, function(response_profiles) {
                             var newResponse = {
                               response_about: response_about,
