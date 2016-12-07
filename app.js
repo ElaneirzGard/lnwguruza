@@ -860,14 +860,66 @@ function receivedPostback(event) {
 
   // When a postback is called, we'll send a message back to the sender to 
   // let them know it was successful
+  //postback called
   if(payload == 'rate_verylow'){
-    sendTextMessage(senderID, "ข้ารู้ข้าเห็นข้าเป็น ai ผิดไปแล้วครับ จะพยายามเก่งขึ้นฮะ");
+    sendTextMessage(senderID, "ข้ารู้ข้าเห็นข้าเป็น ai ผิดไปแล้วครับ จะพยายามเก่งขึ้นฮะTT");
+    var receiptId = senderID;
+    var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "image",
+        payload: {
+          url: "https://scontent-sit4-1.xx.fbcdn.net/v/t34.0-12/13874618_1184906134905006_1374367256_n.gif?oh=d3d1d3bf596e94709e34ddbdd1067a7c&oe=584A44D2"
+        }
+      }
+    }
+  };
+
+  callSendAPI(messageData);
   }
   else if(payload == 'rate_soso'){
     sendTextMessage(senderID, "ข้ารู้ข้าเห็นข้าเป็น ai ทำอะไรได้มากกว่าที่คิดนะจะ");
+    var receiptId = senderID;
+    var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "image",
+        payload: {
+          url: "https://scontent.xx.fbcdn.net/v/t34.0-12/15417033_10207536740923066_471865181_n.gif?_nc_ad=z-m&oh=d4f2620480bff46873a4492ee46b7e7e&oe=584A3B04"
+        }
+      }
+    }
+  };
+
+  callSendAPI(messageData);
+  }
+    
   }
   else if(payload == 'rate_high'){
     sendTextMessage(senderID, "ข้ารู้ข้าเห็นข้าเป็น ai รู้ทุกอย่างอยู่แล้ว หึหึ");
+    var receiptId = senderID;
+    var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "image",
+        payload: {
+          url: "https://scontent-sit4-1.xx.fbcdn.net/v/t34.0-12/13689459_1026421680727193_258112148_n.gif?oh=96c59dd22b0d44dfcc1ff364292e35f8&oe=584B30F3"
+        }
+      }
+    }
+  };
+
+  callSendAPI(messageData);
+    
   }
   else{
     sendTextMessage(senderID, payload);
