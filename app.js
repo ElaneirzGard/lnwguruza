@@ -295,7 +295,7 @@ function receivedMessage(event) {
           //console.log(lastMessage);
           db.collection('user').update(
             { senderID: senderID },
-            { senderID: senderID, lastMessage = messageText}, 
+            { senderID: senderID, lastMessage : messageText}, 
             function(err, result) {
               if(err){
                 console.log('error');
