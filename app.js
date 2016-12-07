@@ -455,6 +455,9 @@ function receivedMessage(event) {
         else if(messageText.indexOf('know') !=-1 || messageText.indexOf('wiki')!= -1){// search wiki
           sendTextMessage(senderID, "Ok, Give me the question2");
         }
+        else if(messageText.indexOf('about me')==-1){
+          sendTextMessage(senderID, "Ok, Give me the question about you.");          
+        }
         ///graph
         else{// simsimi
             //simsimi
