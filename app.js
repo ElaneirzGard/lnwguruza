@@ -610,16 +610,25 @@ function receivedMessage(event) {
           }
           else if(docs.length != 0){ //found user
             
-            console.log('<<<<<<<<<<<<<   IMG-begin   >>>>>>>>>>>');
-            lastMessage = docs[0].lastMessage;
-            
-            console.log(messageAttachments[0]);
-            console.log(messageAttachments[0].payload.url);
+            let imageUrl = messageAttachments[0].payload.url;
+            let predictResponse;
+            let lastMessage = docs[0].lastMessage;
+            console.log('<<<<<<<<<<<<<   IMG-begin  (%s)  >>>>>>>>>>>', imageUrl);
 
             // if(lastMessage == "image") {
-              appClarifai.models.predict(Clarifai.GENERAL_MODEL, messageAttachments[0].payload.url).then(
+              appClarifai.models.predict(Clarifai.GENERAL_MODEL, imageUrl).then(
                 function(response) {
-                  console.log(response);
+                  let concepts = response.data.outputs[0].data.concepts;
+                  let conceptsString = "";
+                  for(let concept of concepts) {
+                    conceptsString += `${concept.name} (${(concept.value*100.0).toFixed(2)})\n`;
+                  }
+                  
+                  let toBeSend = "รูปนี้เป็นรูปเกี่ยวกับ : \n"+conceptString;
+                  sendTextMessage(senderID, toBeSend);
+                  
+                  console.log(conceptsString, "\n\n");
+
                 },
                 function(err) {
                   console.error("error: image processing clarifal");
