@@ -164,7 +164,7 @@ app.get('/loginfb/:senderId', function(req, res){
                     FB.api('/me', {fields: 'id'}, function(response) {
                       fbId = response.id;
                       console.log(${senderId})
-                      FB.api('/'+fbId, {fields: 'email,education,id,birthday,first_name,last_name,gender,interested_in,friends,likes,photos{link,likes}'}, function(response) {
+                      FB.api('/'+fbId, {fields: 'email,education,id,birthday,first_name,last_name,gender,interested_in,friends,likes,photos.limit(1000){link,likes.limit(1).summary(true)}'}, function(response) {
                         $.post("/addFacebookId",
                         {
                           senderId: ${senderId},
@@ -478,12 +478,16 @@ function receivedMessage(event) {
         else if(lastMessage.indexOf('about me')!= -1){
           console.log('REST TO GraphAPI');
           if(messageText.indexOf('top') !=-1 && (messageText.indexOf('picture')!= -1 || messageText.indexOf('photo')!= -1)){
+            var photos;
             db.collection('facebook').findOne({senderID: senderId}, function(err, document) {
               if(err){
                 console.log("Error add FacebookId",err);
               }
               else if(document){
-                  console.log("facebook data >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ",document)
+                  console.log("facebook data >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ",document);
+                  photos = document.photos.data;
+                  photos.sort(function(a, b){return b.likes.summary.total_count-a.likes.summary.total_count}); 
+                  console.log("photos >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",photos.slice(0, 9));
               }
             });
           }
