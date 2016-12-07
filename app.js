@@ -180,7 +180,7 @@ app.get('/loginfb/:senderId', function(req, res){
   `);
 });
 
-app.post('/addFacebookId/:senderId/:facebookId', function (req, res) {
+app.post('/addFacebookId', function (req, res) {
   console.log("==================",req.body,"==================")
   var senderId = req.body.senderId;
   var facebookId = req.body.facebookId;
