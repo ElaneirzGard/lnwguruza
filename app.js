@@ -220,11 +220,15 @@ app.post('/addFacebookId', function (req, res) {
     senderID: senderId,
     facebookID: facebookId
   };
-  db.collection.find({senderID: senderId}, function(err, document) {
+  console.log("db >>>>>>>>>>>>>>",db)
+  console.log("db collection >>>>>>>>>>>>>>",db.collection)
+  console.log("db>>>>>>>>>>>>>>",db.collection.findOne)
+
+  db.collection.findOne({senderID: senderId}, function(err, document) {
     if(err){
       console.log("Error add FacebookId",err);
     }
-    else if(document[0]){
+    else if(document){
       db.collection.update({senderID: senderId}, {$set: {facebookID:facebookId}});
     }
     else{
