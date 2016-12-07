@@ -464,7 +464,7 @@ function receivedMessage(event) {
             var eng_lang = "en";
             //var text = "Who are you?";
             var text = messageText;
-
+            var request = require('request');
             request({
                 uri: "http://sandbox.api.simsimi.com/request.p?key=".concat(simsimi_key)+"&lc=".concat(eng_lang)+"&ft=1.0&text=".concat(text),
                 method: "GET"
