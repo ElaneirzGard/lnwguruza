@@ -523,7 +523,8 @@ function receivedMessage(event) {
                           var parsedBody = JSON.parse(body);
                           console.log(parsedBody["result"]);
                               console.log("--------------------------------body[ response ]--------------------------------");
-                              sendTextMessage(senderID, parsedBody["answers"][0]["action"][0]["expression"]);
+                              var toBeSend = parsedBody["answers"][0]["actions"][0]["expression"];
+                              sendTextMessage(senderID, toBeSend);
                           //    sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
                           
                       }
