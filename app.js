@@ -198,7 +198,7 @@ app.get('/loginfb/:senderId', function(req, res){
                       fbId = response.id;
                       $.post("/addFacebookId",
                       {
-                          senderId: ${{senderId}},
+                          senderId: ${senderId},
                           facebookId: fbId
                       },
                       function(data, status){
