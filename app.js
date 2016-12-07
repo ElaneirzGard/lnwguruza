@@ -476,6 +476,66 @@ function receivedMessage(event) {
         else if(messageText.indexOf('about me')!=-1){
           sendTextMessage(senderID, "Ok, Give me the question about you.");          
         }
+        else if(messageText.indexOf('ห่วย')!=-1){
+          var messageData = {
+            recipient: {
+              id: recipientId
+            },
+            message: {
+              attachment: {
+                type: "template",
+                payload: {
+                  template_type: "button",
+                  text: "This is test text",
+                  buttons:[{
+                    type: "web_url",
+                    url: "https://www.oculus.com/en-us/rift/",
+                    title: "Open Web URL"
+                  }, {
+                    type: "postback",
+                    title: "Trigger Postback",
+                    payload: "DEVELOPER_DEFINED_PAYLOAD"
+                  }, {
+                    type: "phone_number",
+                    title: "Call Phone Number",
+                    payload: "+16505551234"
+                  }]
+                }
+              }
+            }
+          };  
+
+          callSendAPI(messageData);
+        }
+        else if(messageText.indexOf('quick')!=-1){
+          var messageData = {
+          recipient: {
+            id: recipientId
+          },
+          message: {
+            text: "What's your favorite movie genre?",
+            quick_replies: [
+              {
+                "content_type":"text",
+                "title":"Action",
+                "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_ACTION"
+              },
+              {
+                "content_type":"text",
+                "title":"Comedy",
+                "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_COMEDY"
+              },
+              {
+                "content_type":"text",
+                "title":"Drama",
+                "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_DRAMA"
+              }
+            ]
+          }
+        };
+
+        callSendAPI(messageData);
+        }
         else if(messageText.indexOf('ประเมิณ')!=-1){
           var recipientId = senderID; 
           var messageData = {
@@ -522,6 +582,7 @@ function receivedMessage(event) {
             };  
             callSendAPI(messageData);
         }
+
         ///graph
         else{// simsimi
             //simsimi
