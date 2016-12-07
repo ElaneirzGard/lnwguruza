@@ -298,43 +298,41 @@ function receivedMessage(event) {
     console.log("senderID");
     console.log(typeof(senderID));
     console.log(senderID);
-    db.collection('user').find({senderID: senderID }).toArray(function(err, docs) {
-    //db.collection('fb-data').findOne({sender_id: senderID }, function(err, docs) {
+    var lastMessage; 
+    db.collection('user').find({senderID: senderID }).toArray(function(err, docs) {   
         if(err){
           console.log('error!');
           return ;
         }
-        console.log(docs);
-        // if(err){
-        //   console.log('error!');
-        //   return ;
-        // }
-        // else if(docs){//found user
-        //   console.log('-----found user-----');
-        //   console.log('lastMessage = ');
-        //   lastMessage = docs['lastMessage'];
-        //   console.log(lastMessage);
-        //   db.users.update(
-        //     { sender_id: senderID },
-        //     { sender_id: senderID, lastMessage = messageText}, 
-        //     function(err, result) {
-        //       if(err){
-        //         return;
-        //       }
-        //     }
-        //   );
-        // }
-        // else{//user not found
-        //   console.log('-----user not found-----');
-        //   var user = {
-        //     sender_id: senderID,
-        //     lastMessage: messageText,
-        //   };
-        //   db.fb-data.insert(user);          
-        // }
+        else if(docs.length != 0){//found user
+          console.log('-----found user-----');
+          console.log('lastMessage = ');
+          lastMessage = docs[0]['lastMessage'];
+          //console.log(lastMessage);
+          db.collection('user').update(
+            { senderID: senderID },
+            { senderID: senderID, lastMessage : messageText}, 
+            function(err, result) {
+              if(err){
+                console.log('error');
+                return;
+              }
+            }
+          );
+        }
+        else{//user not found
+          console.log('-----user not found-----');
+          var user = {
+            senderID: senderID,
+            lastMessage: messageText,
+          };
+          db.collection('user').insert(user);          
+        }
     });
-    if(messageText.indexOf('cal')){//Wolfram
-
+    if(lastMessage.indexOf('cal') || lastMessage.indexOf('wolfram')){
+      console.log('REST TO Wolfram');
+      console.log(messageText);
+      sendTextMessage(senderID, messageText);
     }
     else{
       sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
