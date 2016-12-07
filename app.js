@@ -301,7 +301,7 @@ function receivedMessage(event) {
     console.log("senderID");
     console.log(typeof(senderID));
     console.log(senderID);
-    var lastMessage; 
+    var lastMessage = ''; 
     db.collection('user').find({senderID: senderID }).toArray(function(err, docs) {   
         if(err){
           console.log('error!');
@@ -309,6 +309,7 @@ function receivedMessage(event) {
         }
         else if(docs.length != 0){//found user
           console.log('-----found user-----');
+          console.log(docs);
           console.log('lastMessage = ');
           lastMessage = docs[0]['lastMessage'];
           //console.log(lastMessage);
