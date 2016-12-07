@@ -331,13 +331,27 @@ function receivedMessage(event) {
           };
           db.collection('user').insert(user);          
         }
-
+        //======= start check ======
+        // ==== check last message ====
         if(lastMessage.indexOf('cal')!= -1 || lastMessage.indexOf('wolfram')!= -1){
           console.log('REST TO Wolfram');
           console.log(messageText);
           sendTextMessage(senderID, messageText);
         }
-        else{
+        if(lastMessage.indexOf('kow')!= -1 || lastMessage.indexOf('wiki')!= -1){
+          console.log('REST TO Wiki');
+          console.log(messageText);
+          sendTextMessage(senderID, messageText);
+        }
+        //==== check current message ====
+        if(messageText.indexOf('cal')==-1 || messageText.indexOf('wolfram')!= -1){// calculate
+          sendTextMessage(senderID, "Ok, Give me the question");
+        }
+        if(messageText.indexOf('know')==-1 || messageText.indexOf('wiki')!= -1){// search wiki
+          sendTextMessage(senderID, "Ok, Give me the question");
+        }
+        ///graph
+        else{// simsimi
           sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
         }
     });
