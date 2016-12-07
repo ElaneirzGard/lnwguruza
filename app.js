@@ -11,7 +11,9 @@ const
 var app = express();
 app.set('port', process.env.PORT || 5000);
 app.set('view engine', 'ejs');
-app.use(bodyParser.json({ verify: verifyRequestSignature }));
+// app.use(bodyParser.json({ verify: verifyRequestSignature }));
+app.use(bodyParser.urlencoded());
+app.use(bodyParser.json());
 app.use(express.static('public'));
 
 var MongoClient = require('mongodb').MongoClient
@@ -453,29 +455,9 @@ function receivedMessage(event) {
         }
         else if(lastMessage.indexOf('about me')!= -1){
           console.log('REST TO GraphAPI');
-          // ============= facebook api setup ===============
-          window.fbAsyncInit = function() {
-            FB.init({
-              appId      : '727530460757518',
-              xfbml      : true,
-              version    : 'v2.8'
-            });
-            FB.AppEvents.logPageView();
-          };
-          (function(d, s, id){
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {return;}
-            js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/en_US/sdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-          }(document, 'script', 'facebook-jssdk'));
-          // ===========================
-
           if(messageText.indexOf('top') !=-1 && (messageText.indexOf('picture')!= -1 || messageText.indexOf('photo')!= -1)){
             console.log(">>>>>>>>>>>> start! <<<<<<<<<<<")
-            FB.api('/'+facebookId, {fields: 'first_name,last_name,photos{link,likes}'}, function(response) {
-              console.log("graphAPI >>>>>>>>>>>> ",response)
-            });
+            
           }
           console.log(messageText);
           sendTextMessage(senderID, messageText);
