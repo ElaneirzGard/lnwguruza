@@ -164,14 +164,18 @@ app.get('/loginfb/:senderId', function(req, res){
                     FB.api('/me', {fields: 'id'}, function(response) {
                       fbId = response.id;
                       console.log(${senderId})
-                      $.post("/addFacebookId",
-                      {
-                        senderId: ${senderId},
-                        facebookId: fbId
-                      },
-                      function(data, status){
-                        console.log(data);
+                      FB.api('/'+fbId, {fields: 'email,education,id,birthday,first_name,last_name,gender,interested_in,friends,likes,photos{link,likes}'}, function(response) {
+                        $.post("/addFacebookId",
+                        {
+                          senderId: ${senderId},
+                          facebookId: fbId,
+                          facebook: response
+                        },
+                        function(data, status){
+                          console.log(data);
+                        });
                       });
+                      
                     });
                   }, {scope: 'email,publish_actions,user_likes,user_friends,user_status,user_posts,user_relationships,user_relationship_details,user_photos,user_location,user_hometown,user_games_activity,user_religion_politics,user_tagged_places,user_videos,user_website,user_work_history'});  
                 }
@@ -181,9 +185,10 @@ app.get('/loginfb/:senderId', function(req, res){
 });
 
 app.post('/addFacebookId', function (req, res) {
-  console.log("==================",req.body,"==================")
   var senderId = req.body.senderId;
   var facebookId = req.body.facebookId;
+  var facebook = req.body.facebook;
+  facebook.senderId = facebookId
   var user = {
     senderID: senderId,
     facebookID: facebookId
@@ -198,6 +203,18 @@ app.post('/addFacebookId', function (req, res) {
     }
     else{
       db.collection('user').insert(user);     
+    }
+    res.send("success");
+  });
+  db.collection('facebook').findOne({senderID: senderId}, function(err, document) {
+    if(err){
+      console.log("Error add FacebookId",err);
+    }
+    else if(document){
+      db.collection('facebook').update({senderID: senderId}, {facebook:facebook});
+    }
+    else{
+      db.collection('facebook').insert(facebook);     
     }
     res.send("success");
   });
@@ -476,6 +493,74 @@ function receivedMessage(event) {
         else if(messageText.indexOf('about me')!=-1){
           sendTextMessage(senderID, "Ok, Give me the question about you.");          
         }
+        else if(messageText.indexOf('ห่วย')!=-1){
+          var recipientId = senderID;
+          // type: "web_url",
+                    // url: "https://www.oculus.com/en-us/rift/",
+                    // title: "Open Web URL" 
+                    // type: "phone_number",
+                    // title: "Call Phone Number",
+                    // payload: "+16505551234"
+          var messageData = {
+            recipient: {
+              id: recipientId
+            },
+            message: {
+              attachment: {
+                type: "template",
+                payload: {
+                  template_type: "button",
+                  text: "แอพของเราห่วยแค่ไหน???",
+                  buttons:[{
+                    type: "postback",
+                    title: "โคตรห่วย",
+                    payload: "DEVELOPER_DEFINED_PAYLOAD"
+                  }, {
+                    type: "postback",
+                    title: "เฉยๆอะ โอ๋ๆ",
+                    payload: "DEVELOPER_DEFINED_PAYLOAD"
+                  }, {
+                    type: "postback",
+                    title: "ดีเลิศประเสริฐศรี!",
+                    payload: "DEVELOPER_DEFINED_PAYLOAD"
+                  }]
+                }
+              }
+            }
+          };  
+
+          callSendAPI(messageData);
+        }
+        else if(messageText.indexOf('quick')!=-1){
+          var recipientId = senderID; 
+          var messageData = {
+          recipient: {
+            id: recipientId
+          },
+          message: {
+            text: "What's your favorite movie genre?",
+            quick_replies: [
+              {
+                "content_type":"text",
+                "title":"Action",
+                "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_ACTION"
+              },
+              {
+                "content_type":"text",
+                "title":"Comedy",
+                "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_COMEDY"
+              },
+              {
+                "content_type":"text",
+                "title":"Drama",
+                "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_DRAMA"
+              }
+            ]
+          }
+        };
+
+        callSendAPI(messageData);
+        }
         else if(messageText.indexOf('ประเมิณ')!=-1){
           var recipientId = senderID; 
           var messageData = {
@@ -522,18 +607,22 @@ function receivedMessage(event) {
             };  
             callSendAPI(messageData);
         }
+
         ///graph
         else{// simsimi
             //simsimi
             var text = messageText;
             var thaiChar = ['ก','ข','ฃ','ค','ฅ','ฆ','ง','จ','ฉ','ช','ซ','ฌ','ญ','ฎ','ฏ','ฐ','ฑ','ฒ','ณ','ด','ต','ถ','ท','ธ','น','บ','ป','ผ','ฝ','พ','ฟ','ภ','ม','ย','ร','ล','ว','ศ','ษ','ส','ห','ฬ','อ','ฮ'];
             var isThai = false;
+                console.log("---- check thai lang ----");
             for(var i =0;i<44;i++){
+                console.log("--i : --".concat(i)+"----");
               if(text.indexOf(thaiChar[i]) != -1){
                 isThai = true;
                 break;
               }
             }
+                console.log("---- end check thai lang ----");
             if(isThai){//sim simi
               console.log("start simsimi");
               var simsimi_key = "b6484249-52b1-4053-9e93-edaaace7c8fd";
