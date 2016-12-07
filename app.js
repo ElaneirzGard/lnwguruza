@@ -758,7 +758,7 @@ function receivedMessage(event) {
                   console.log("Concepts: ");
                   console.log(conceptsString, "\n\n");
 
-                  let toBeSend = "รูปนี้เป็นรูปเกี่ยวกับ : \n"+conceptString;
+                  let toBeSend = "รูปนี้เป็นรูปเกี่ยวกับ : \n"+conceptsString;
                   sendTextMessage(senderID, toBeSend);
                 },
                 function(err) {
