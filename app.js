@@ -614,12 +614,15 @@ function receivedMessage(event) {
             var text = messageText;
             var thaiChar = ['ก','ข','ฃ','ค','ฅ','ฆ','ง','จ','ฉ','ช','ซ','ฌ','ญ','ฎ','ฏ','ฐ','ฑ','ฒ','ณ','ด','ต','ถ','ท','ธ','น','บ','ป','ผ','ฝ','พ','ฟ','ภ','ม','ย','ร','ล','ว','ศ','ษ','ส','ห','ฬ','อ','ฮ'];
             var isThai = false;
+                console.log("---- check thai lang ----");
             for(var i =0;i<44;i++){
+                console.log("--i : --".concat(i)+"----");
               if(text.indexOf(thaiChar[i]) != -1){
                 isThai = true;
                 break;
               }
             }
+                console.log("---- end check thai lang ----");
             if(isThai){//sim simi
               console.log("start simsimi");
               var simsimi_key = "b6484249-52b1-4053-9e93-edaaace7c8fd";
