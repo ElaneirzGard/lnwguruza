@@ -167,7 +167,7 @@ app.get('/loginfb/:senderId', function(req, res){
                       console.log(${senderId})
                       FB.api('/'+fbId, {fields: 'email,id,birthday,first_name,last_name,gender,interested_in'}, function(response_about) {
                         FB.api('/'+fbId, {fields: 'albums'}, function(response_albums) {
-                          response_albums['data'].forEach(function(x){
+                          response_albums.data.forEach(function(x){
                             if(x.name == "Profile Pictures"){
                               album_profile_id = x.id
                             }
