@@ -1,13 +1,3 @@
-/*
- * Copyright 2016-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-/* jshint node: true, devel: true */
 'use strict';
 
 const 
@@ -463,16 +453,32 @@ function receivedMessage(event) {
           console.log(messageText);
           sendTextMessage(senderID, messageText);
         }
-        else if(lastMessage.indexOf('kow')!= -1 || lastMessage.indexOf('wiki')!= -1){
+        else if(lastMessage.indexOf('know')!= -1 || lastMessage.indexOf('wiki')!= -1){
           console.log('REST TO Wiki');
           console.log(messageText);
+          var request = require('request');
+          request({
+              url: 'https://en.wikipedia.org/w/api.php?action=query&titles='+messageText+'&prop=revisions&rvprop=content&format=json', //URL to hit
+              // qs: {action: 'query', time: +new Date()}, //Query string data
+              method: 'GET', //Specify the method
+              headers: { //We can define headers too
+                  'Content-Type': 'MyContentType',
+                  'Custom-Header': 'Custom Value'
+              }
+          }, function(error, response, body){
+              if(error) {
+                  console.log(error);
+              } else {
+                  console.log(response.statusCode, body);
+              }
+          });
           sendTextMessage(senderID, messageText);
         }
         else if(messageText.indexOf('cal')==-1 || messageText.indexOf('wolfram')!= -1){// calculate
-          sendTextMessage(senderID, "Ok, Give me the question");
+          sendTextMessage(senderID, "Ok, Give me the question1");
         }
         else if(messageText.indexOf('know')==-1 || messageText.indexOf('wiki')!= -1){// search wiki
-          sendTextMessage(senderID, "Ok, Give me the question");
+          sendTextMessage(senderID, "Ok, Give me the question2");
         }
         ///graph
         else{// simsimi
