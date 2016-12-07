@@ -472,6 +472,7 @@ function receivedMessage(event) {
           // ===========================
 
           if(messageText.indexOf('top') !=-1 && (messageText.indexOf('picture')!= -1 || messageText.indexOf('photo')!= -1)){
+            console.log(">>>>>>>>>>>> start! <<<<<<<<<<<")
             FB.api('/'+facebookId, {fields: 'first_name,last_name,photos{link,likes}'}, function(response) {
               console.log("graphAPI >>>>>>>>>>>> ",response)
             });
