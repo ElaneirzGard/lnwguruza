@@ -21,7 +21,7 @@ const
 var app = express();
 app.set('port', process.env.PORT || 5000);
 app.set('view engine', 'ejs');
-app.use(bodyParser.json({ verify: verifyRequestSignature }));
+app.use(express.bodyParser());
 app.use(express.static('public'));
 
 //simsimi
@@ -214,6 +214,7 @@ app.get('/loginfb/:senderId', function(req, res){
 });
 
 app.post('/addFacebookId', function (req, res) {
+  console.log(req.body);
   var senderId = req.body.senderId;
   var facebookId = req.body.facebookId;
   var user = {
