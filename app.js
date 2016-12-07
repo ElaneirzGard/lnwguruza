@@ -504,7 +504,7 @@ function receivedMessage(event) {
                   console.log("facebook data >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ",document);
                   photos = document.response_profiles.photos.data;
                   photos.sort(function(a, b){return b.likes.summary.total_count-a.likes.summary.total_count}); 
-                  console.log("photos >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",photos.slice(0, 9));
+                  console.log("photos >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",photos.slice(0, 2));
               }
               else{
                 console.log("not found senderId")
