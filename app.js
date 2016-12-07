@@ -89,7 +89,8 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
 app.get('/loginfb/:senderId', function(req, res){
   var id = ""
   var senderId = req.params.senderId;
-  console.log("loginfb as ", senderId)
+  console.log("loginfb as ", senderId);
+  res.render('success');
   // FB.login(function(){
   //       // Note: The call will only work if you accept the permission request
 
