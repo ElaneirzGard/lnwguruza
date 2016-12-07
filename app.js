@@ -489,35 +489,35 @@ function receivedMessage(event) {
         ///graph
         else{// simsimi
             //simsimi
-            //console.log("start simsimi");
-            //var simsimi_key = "b6484249-52b1-4053-9e93-edaaace7c8fd";
-            //var thai_lang = "th";
-            //var eng_lang = "en";
-            ////var text = "Who are you?";
-            //var text = messageText;
-            //
-            //request({
-            //    uri: "http://sandbox.api.simsimi.com/request.p?key=".concat(simsimi_key)+"&lc=".concat(eng_lang)+"&ft=1.0&text=".concat(text),
-            //    method: "GET"
-            //}, function(error, response, body) {
-            //    console.log("--------------------------------body simisimi--------------------------------"); 
-            //    console.log(body);
-            //    console.log("--------------------------------body[ result ]--------------------------------");
-            //    var parsedBody = JSON.parse(body);
-            //    console.log(parsedBody["result"]);
-            //
-            //
-            //    if(parsedBody["result"] == 100) {
-            //        console.log("--------------------------------body[ response ]--------------------------------");
-            //        console.log(parsedBody["response"]);
-            //        sendTextMessage(senderID, parsedBody["response"]);
-            //    }
-            //    else {
-            //        sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
-            //    }
-            //
-            //});
-            //console.log("end simsimi");
+            console.log("start simsimi");
+            var simsimi_key = "b6484249-52b1-4053-9e93-edaaace7c8fd";
+            var thai_lang = "th";
+            var eng_lang = "en";
+            //var text = "Who are you?";
+            var text = messageText;
+
+            request({
+                uri: "http://sandbox.api.simsimi.com/request.p?key=".concat(simsimi_key)+"&lc=".concat(eng_lang)+"&ft=1.0&text=".concat(text),
+                method: "GET"
+            }, function(error, response, body) {
+                console.log("--------------------------------body simisimi--------------------------------"); 
+                console.log(body);
+                console.log("--------------------------------body[ result ]--------------------------------");
+                var parsedBody = JSON.parse(body);
+                console.log(parsedBody["result"]);
+
+
+                if(parsedBody["result"] == 100) {
+                    console.log("--------------------------------body[ response ]--------------------------------");
+                    console.log(parsedBody["response"]);
+                    sendTextMessage(senderID, parsedBody["response"]);
+                }
+                else {
+                    sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
+                }
+
+            });
+            console.log("end simsimi");
             //end simsimi
           //sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
         }
