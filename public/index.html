@@ -97,19 +97,16 @@ LICENSE file in the root directory of this source tree.
     
 
     function myFacebookLogin() {
-      FB.getLoginStatus(function(response) {
-        if (response.status === 'connected') {
-          console.log('Logged in.');
-        }
-        else {
-          FB.login(function(){
+      var id = ""
+      FB.login(function(){
             // Note: The call will only work if you accept the permission request
-              FB.api('/me', {fields: 'access_token'}, function(response) {
-                console.log(response);
+              FB.api('/me', {fields: 'id'}, function(response) {
+                id = response.id;
+                FB.api('/'+id, {fields: 'email,education,id,birthday,first_name,last_name,gender,interested_in,friends,likes'}, function(response) {
+                  
+                });
               });
-          }, {scope: 'email,publish_actions,user_likes,user_about_me,user_birthday,user_education_history'});
-        }
-      });      
+          }, {scope: 'email,publish_actions,user_likes,user_friends,user_status,user_posts,user_relationships,user_relationship_details,user_photos,user_location,user_hometown,user_games_activity,user_religion_politics,user_tagged_places,user_videos,user_website,user_work_history'});  
     }
 
     
