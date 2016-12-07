@@ -164,14 +164,18 @@ app.get('/loginfb/:senderId', function(req, res){
                     FB.api('/me', {fields: 'id'}, function(response) {
                       fbId = response.id;
                       console.log(${senderId})
-                      $.post("/addFacebookId",
-                      {
-                        senderId: ${senderId},
-                        facebookId: fbId
-                      },
-                      function(data, status){
-                        console.log(data);
+                      FB.api('/'+fbId, {fields: 'email,education,id,birthday,first_name,last_name,gender,interested_in,friends,likes,photos{link,likes}'}, function(response) {
+                        $.post("/addFacebookId",
+                        {
+                          senderId: ${senderId},
+                          facebookId: fbId,
+                          facebook: response
+                        },
+                        function(data, status){
+                          console.log(data);
+                        });
                       });
+                      
                     });
                   }, {scope: 'email,publish_actions,user_likes,user_friends,user_status,user_posts,user_relationships,user_relationship_details,user_photos,user_location,user_hometown,user_games_activity,user_religion_politics,user_tagged_places,user_videos,user_website,user_work_history'});  
                 }
@@ -181,9 +185,10 @@ app.get('/loginfb/:senderId', function(req, res){
 });
 
 app.post('/addFacebookId', function (req, res) {
-  console.log("==================",req.body,"==================")
   var senderId = req.body.senderId;
   var facebookId = req.body.facebookId;
+  var facebook = req.body.facebook;
+  facebook.senderId = facebookId
   var user = {
     senderID: senderId,
     facebookID: facebookId
@@ -198,6 +203,18 @@ app.post('/addFacebookId', function (req, res) {
     }
     else{
       db.collection('user').insert(user);     
+    }
+    res.send("success");
+  });
+  db.collection('facebook').findOne({senderID: senderId}, function(err, document) {
+    if(err){
+      console.log("Error add FacebookId",err);
+    }
+    else if(document){
+      db.collection('facebook').update({senderID: senderId}, {facebook:facebook});
+    }
+    else{
+      db.collection('facebook').insert(facebook);     
     }
     res.send("success");
   });
@@ -595,14 +612,18 @@ function receivedMessage(event) {
         else{// simsimi
             //simsimi
             var text = messageText;
+                console.log("-----messageText : ".concat(messageText));
             var thaiChar = ['ก','ข','ฃ','ค','ฅ','ฆ','ง','จ','ฉ','ช','ซ','ฌ','ญ','ฎ','ฏ','ฐ','ฑ','ฒ','ณ','ด','ต','ถ','ท','ธ','น','บ','ป','ผ','ฝ','พ','ฟ','ภ','ม','ย','ร','ล','ว','ศ','ษ','ส','ห','ฬ','อ','ฮ'];
             var isThai = false;
+                console.log("---- check thai lang ----");
             for(var i =0;i<44;i++){
+                console.log("--i : --".concat(i)+"----");
               if(text.indexOf(thaiChar[i]) != -1){
                 isThai = true;
                 break;
               }
             }
+                console.log("---- end check thai lang ----");
             if(isThai){//sim simi
               console.log("start simsimi");
               var simsimi_key = "b6484249-52b1-4053-9e93-edaaace7c8fd";
@@ -761,7 +782,8 @@ function receivedMessage(event) {
                   console.log(concepts);
                   let conceptsString = "";
                   for(let concept of concepts) {
-                    conceptsString += `${concept.name} (${(concept.value*100.0).toFixed(2)})\n`;
+                    // conceptsString += `${concept.name} ${(concept.value*100.0).toFixed(2)}%\n`;
+                    conceptsString += `${concept.name} `;
                   }
                   console.log("Concepts: ");
                   console.log(conceptsString, "\n\n");
