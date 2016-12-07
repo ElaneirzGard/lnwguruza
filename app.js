@@ -636,7 +636,7 @@ function receivedMessage(event) {
                 console.log("start simsimi 2");
                 console.log("uri : ".concat("http://sandbox.api.simsimi.com/request.p?key=".concat(simsimi_key)+"&lc=".concat(thai_lang)+"&ft=1.0&text=".concat(text)));
               request({
-                  uri: "http://sandbox.api.simsimi.com/request.p?key=".concat(simsimi_key)+"&lc=".concat(thai_lang)+"&ft=1.0&text=".concat(text),
+                  uri: "http://sandbox.api.simsimi.com/request.p?key=".concat(simsimi_key)+"&lc=".concat(thai_lang)+"&text=".concat(text),
                   method: "GET"
               }, function(error, response, body) {
                   if(error) {
