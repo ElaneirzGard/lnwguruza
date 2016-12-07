@@ -37,11 +37,11 @@ MongoClient.connect(url, function(err, database) {
 // })
 
 
-// var Clarifai = require('clarifai');
-// var appClarifai = new Clarifai.App(
-//   'McQCTVH2Pv3Yu0Pa3LhD76WsTophGA-FmOqQUdk_',
-//   'HmDVVO-TzoPMQkJAfkt4vNwZJtWw2GAEdehbXf02'
-// );
+var Clarifai = require('clarifai');
+var appClarifai = new Clarifai.App(
+  'McQCTVH2Pv3Yu0Pa3LhD76WsTophGA-FmOqQUdk_',
+  'HmDVVO-TzoPMQkJAfkt4vNwZJtWw2GAEdehbXf02'
+);
 
 
 /*
@@ -455,7 +455,7 @@ function receivedMessage(event) {
         else if(messageText.indexOf('know') !=-1 || messageText.indexOf('wiki')!= -1){// search wiki
           sendTextMessage(senderID, "Ok, Give me the question2");
         }
-        else if(messageText.indexOf('about me')==-1){
+        else if(messageText.indexOf('about me')!=-1){
           sendTextMessage(senderID, "Ok, Give me the question about you.");          
         }
         ///graph
@@ -604,6 +604,39 @@ function receivedMessage(event) {
     */
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
+    if(messageAttachments.type == 'image') {
+      var lastMessage = ''; 
+      db.collection('user').find({senderID: senderID }).toArray(function(err, docs) {
+          if(err){
+            console.log('error!');
+            return ;
+          }
+          else if(docs.length != 0){ //found user
+            
+            console.log('<<<<<<<<<<<<<   IMG-begin   >>>>>>>>>>>');
+            lastMessage = docs[0].lastMessage;
+            // if(lastMessage == "image") {
+              appClarifai.models.predict(Clarifai.GENERAL_MODEL, messageAttachments.url).then(
+                function(response) {
+                  console.log(response);
+                },
+                function(err) {
+                  console.error("error: image processing clarifal");
+                }
+              );
+            // }
+            console.log('<<<<<<<<<<<<<   IMG-end   >>>>>>>>>>>');
+          } 
+          else{//user not found
+            console.log('-----user not found-----');
+            var user = {
+              senderID: senderID,
+              lastMessage: "",
+            };
+            db.collection('user').insert(user);          
+          }
+      });
+    }
     console.log(messageAttachments);
   }
 }
