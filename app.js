@@ -393,6 +393,7 @@ function receivedMessage(event) {
     console.log(typeof(senderID));
     console.log(senderID);
     var lastMessage = ''; 
+    var facebookId = "";
     db.collection('user').find({senderID: senderID }).toArray(function(err, docs) {   
         if(err){
           console.log('error!');
@@ -403,10 +404,11 @@ function receivedMessage(event) {
           console.log(docs);
           console.log('lastMessage = ');
           lastMessage = docs[0].lastMessage;
+          facebookId = docs[0].facebookID;
           console.log(lastMessage);
           db.collection('user').update(
             { senderID: senderID },
-            { senderID: senderID, lastMessage : messageText}, 
+            {$set: {lastMessage : messageText}}, 
             function(err, result) {
               if(err){
                 console.log('error');
@@ -449,6 +451,35 @@ function receivedMessage(event) {
           });
           sendTextMessage(senderID, messageText);
         }
+        else if(lastMessage.indexOf('about me')!= -1){
+          console.log('REST TO GraphAPI');
+          // ============= facebook api setup ===============
+          window.fbAsyncInit = function() {
+            FB.init({
+              appId      : '727530460757518',
+              xfbml      : true,
+              version    : 'v2.8'
+            });
+            FB.AppEvents.logPageView();
+          };
+          (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+          }(document, 'script', 'facebook-jssdk'));
+          // ===========================
+
+          if(messageText.indexOf('top') !=-1 && (messageText.indexOf('picture')!= -1 || messageText.indexOf('photo')!= -1)){
+            console.log(">>>>>>>>>>>> start! <<<<<<<<<<<")
+            FB.api('/'+facebookId, {fields: 'first_name,last_name,photos{link,likes}'}, function(response) {
+              console.log("graphAPI >>>>>>>>>>>> ",response)
+            });
+          }
+          console.log(messageText);
+          sendTextMessage(senderID, messageText);
+        }
         else if(messageText.indexOf('cal') !=-1 || messageText.indexOf('wolfram')!= -1){// calculate
           sendTextMessage(senderID, "Ok, Give me the question1");
         }
@@ -476,15 +507,20 @@ function receivedMessage(event) {
               var thai_lang = "th";
               var eng_lang = "en";
               //var text = "Who are you?";
+                console.log("start simsimi 1");
               
               var request = require('request');
+                console.log("start simsimi 2");
               request({
-                  uri: "http://sandbox.api.simsimi.com/request.p?key=".concat(simsimi_key)+"&lc=".concat(eng_lang)+"&ft=1.0&text=".concat(text),
+                  uri: "http://sandbox.api.simsimi.com/request.p?key=".concat(simsimi_key)+"&lc=".concat(thai_lang)+"&ft=1.0&text=".concat(text),
                   method: "GET"
               }, function(error, response, body) {
                   if(error) {
+                console.log("start simsimi 3");
                       console.log(error);
                   } else {
+                console.log("start simsimi 4");
+                console.log("--response.statusCode-- > ".concat(response.statusCode));
                       if(response.statusCode == 200){
                           console.log("--------------------------------body simisimi--------------------------------"); 
                           console.log(body);
