@@ -187,8 +187,8 @@ app.get('/loginfb/:senderId', function(req, res){
                             function(data, status){
                               console.log(data);
                             });  
-                          }
-                        }
+                          });
+                        });
                       });
                       
                     });
