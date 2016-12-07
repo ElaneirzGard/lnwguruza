@@ -88,8 +88,10 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
  */
 app.get('/loginfb/:senderId', function(req, res){
   var id = ""
+  console.log("loginfb")
   FB.login(function(){
         // Note: The call will only work if you accept the permission request
+
           FB.api('/me', {fields: 'id'}, function(response) {
             id = response.id;
             FB.api('/'+id, {fields: 'email,education,id,birthday,first_name,last_name,gender,interested_in,friends,likes'}, function(response) {
