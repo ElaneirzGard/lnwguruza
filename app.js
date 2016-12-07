@@ -160,20 +160,35 @@ app.get('/loginfb/:senderId', function(req, res){
 
                 function myFacebookLogin() {
                   var fbId = ""
+                  var album_profile_id = ""
                   FB.login(function(){
                     FB.api('/me', {fields: 'id'}, function(response) {
                       fbId = response.id;
                       console.log(${senderId})
-                      FB.api('/'+fbId, {fields: 'email,id,birthday,first_name,last_name,gender,interested_in,friends,photos.limit(500){link,likes.limit(0).summary(true)}'}, function(response) {
-                        $.post("/addFacebookId",
-                        {
-                          senderId: ${senderId},
-                          facebookId: fbId,
-                          facebook: response
-                        },
-                        function(data, status){
-                          console.log(data);
-                        });
+                      FB.api('/'+fbId, {fields: 'email,id,birthday,first_name,last_name,gender,interested_in'}, function(response_about) {
+                        FB.api('/'+fbId, {fields: 'albums'}, function(response_albums) {
+                          for(var x of response_albums['data']){
+                            if(x.name == "Profile Pictures"){
+                              album_profile_id = x.id
+                            }
+                          }
+                          FB.api('/'+album_profile_id, {fields: 'photos{link,likes.limit(0).summary(true)}'}, function(response_profiles) {
+                            var newResponse = {
+                              response_about: response_about,
+                              response_albums: response_albums,
+                              response_profiles: response_profiles
+                            }
+                            $.post("/addFacebookId",
+                            {
+                              senderId: ${senderId},
+                              facebookId: fbId,
+                              facebook: newResponse
+                            },
+                            function(data, status){
+                              console.log(data);
+                            });  
+                          }
+                        }
                       });
                       
                     });
@@ -189,6 +204,7 @@ app.post('/addFacebookId', function (req, res) {
   var facebookId = req.body.facebookId;
   var facebook = req.body.facebook;
   facebook.senderID = facebookId
+  console.log("==================",facebook,"===================")
   var user = {
     senderID: senderId,
     facebookID: facebookId
