@@ -292,7 +292,6 @@ function receivedMessage(event) {
   }
 
   if (messageText) {
-
     // If we receive a text message, check to see if it matches any special
     // keywords and send back the corresponding example. Otherwise, just echo
     // the text we received.
@@ -310,8 +309,7 @@ function receivedMessage(event) {
           console.log('-----found user-----');
           console.log(docs);
           console.log('lastMessage = ');
-          lastMessage = docs[0]['lastMessage'];
-          //console.log(lastMessage);
+          lastMessage = docs[0]['lastMessage'];          
           db.collection('user').update(
             { senderID: senderID },
             { senderID: senderID, lastMessage : messageText}, 
@@ -331,15 +329,16 @@ function receivedMessage(event) {
           };
           db.collection('user').insert(user);          
         }
+        if(lastMessage.indexOf('cal') || lastMessage.indexOf('wolfram')){
+          console.log('REST TO Wolfram');
+          console.log(messageText);
+          sendTextMessage(senderID, messageText);
+        }
+        else{
+          sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
+        }
     });
-    if(lastMessage.indexOf('cal') || lastMessage.indexOf('wolfram')){
-      console.log('REST TO Wolfram');
-      console.log(messageText);
-      sendTextMessage(senderID, messageText);
-    }
-    else{
-      sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
-    }
+    
     /*
     switch (messageText) {
       case 'image':
