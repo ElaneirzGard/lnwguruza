@@ -514,15 +514,15 @@ function receivedMessage(event) {
                   buttons:[{
                     type: "postback",
                     title: "โคตรห่วย",
-                    payload: "DEVELOPER_DEFINED_PAYLOAD"
+                    payload: "rate_verylow"
                   }, {
                     type: "postback",
                     title: "เฉยๆอะ โอ๋ๆ",
-                    payload: "DEVELOPER_DEFINED_PAYLOAD"
+                    payload: "rate_soso"
                   }, {
                     type: "postback",
                     title: "ดีเลิศประเสริฐศรี!",
-                    payload: "DEVELOPER_DEFINED_PAYLOAD"
+                    payload: "rate_high"
                   }]
                 }
               }
@@ -861,7 +861,20 @@ function receivedPostback(event) {
 
   // When a postback is called, we'll send a message back to the sender to 
   // let them know it was successful
-  sendTextMessage(senderID, "Postback called");
+  if(payload == 'rate_verylow'){
+    sendTextMessage(senderID, "ข้ารู้ข้าเห็นข้าเป็น ai ผิดไปแล้วครับ จะพยายามเก่งขึ้นฮะ");
+  }
+  else if(payload == 'rate_soso'){
+    sendTextMessage(senderID, "ข้ารู้ข้าเห็นข้าเป็น ai ทำอะไรได้มากกว่าที่คิดนะจะ");
+  }
+  else if(payload == 'rate_high'){
+    sendTextMessage(senderID, "ข้ารู้ข้าเห็นข้าเป็น ai รู้ทุกอย่างอยู่แล้ว หึหึ");
+  }
+  else{
+    sendTextMessage(senderID, payload);
+  }
+  
+  
 }
 
 /*
