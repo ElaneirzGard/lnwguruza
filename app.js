@@ -282,7 +282,7 @@ function receivedMessage(event) {
     console.log("senderID");
     console.log(typeof(senderID));
     console.log(senderID);
-    var lastMessage; 
+    var lastMessage = ''; 
     db.collection('user').find({senderID: senderID }).toArray(function(err, docs) {   
         if(err){
           console.log('error!');
