@@ -104,13 +104,13 @@ LICENSE file in the root directory of this source tree.
     });
 
     function myFacebookLogin() {
-      FB.login(function(){}, {scope: 'publish_actions'});
-    }
-
-    FB.login(function(){
+      FB.login(function(){
       // Note: The call will only work if you accept the permission request
       FB.api('/me/feed', 'post', {message: 'Hello, world!'});
     }, {scope: 'publish_actions'});
+    }
+
+    
 </script>
 
 <button onclick="myFacebookLogin()">Login with Facebook</button>
