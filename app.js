@@ -565,15 +565,15 @@ function receivedMessage(event) {
                   buttons:[{
                     type: "postback",
                     title: "โคตรห่วย",
-                    payload: "DEVELOPER_DEFINED_PAYLOAD"
+                    payload: "rate_verylow"
                   }, {
                     type: "postback",
                     title: "เฉยๆอะ โอ๋ๆ",
-                    payload: "DEVELOPER_DEFINED_PAYLOAD"
+                    payload: "rate_soso"
                   }, {
                     type: "postback",
                     title: "ดีเลิศประเสริฐศรี!",
-                    payload: "DEVELOPER_DEFINED_PAYLOAD"
+                    payload: "rate_high"
                   }]
                 }
               }
@@ -663,14 +663,18 @@ function receivedMessage(event) {
         else{// simsimi
             //simsimi
             var text = messageText;
+                console.log("-----messageText : ".concat(messageText));
             var thaiChar = ['ก','ข','ฃ','ค','ฅ','ฆ','ง','จ','ฉ','ช','ซ','ฌ','ญ','ฎ','ฏ','ฐ','ฑ','ฒ','ณ','ด','ต','ถ','ท','ธ','น','บ','ป','ผ','ฝ','พ','ฟ','ภ','ม','ย','ร','ล','ว','ศ','ษ','ส','ห','ฬ','อ','ฮ'];
             var isThai = false;
+                console.log("---- check thai lang ----");
             for(var i =0;i<44;i++){
+                console.log("--i : --".concat(i)+"----");
               if(text.indexOf(thaiChar[i]) != -1){
                 isThai = true;
                 break;
               }
             }
+                console.log("---- end check thai lang ----");
             if(isThai){//sim simi
               console.log("start simsimi");
               var simsimi_key = "b6484249-52b1-4053-9e93-edaaace7c8fd";
@@ -681,6 +685,7 @@ function receivedMessage(event) {
               
               var request = require('request');
                 console.log("start simsimi 2");
+                console.log("uri : ".concat("http://sandbox.api.simsimi.com/request.p?key=".concat(simsimi_key)+"&lc=".concat(thai_lang)+"&ft=1.0&text=".concat(text)));
               request({
                   uri: "http://sandbox.api.simsimi.com/request.p?key=".concat(simsimi_key)+"&lc=".concat(thai_lang)+"&ft=1.0&text=".concat(text),
                   method: "GET"
@@ -829,7 +834,8 @@ function receivedMessage(event) {
                   console.log(concepts);
                   let conceptsString = "";
                   for(let concept of concepts) {
-                    conceptsString += `${concept.name} (${(concept.value*100.0).toFixed(2)})\n`;
+                    // conceptsString += `${concept.name} ${(concept.value*100.0).toFixed(2)}%\n`;
+                    conceptsString += `${concept.name} `;
                   }
                   console.log("Concepts: ");
                   console.log(conceptsString, "\n\n");
@@ -906,7 +912,20 @@ function receivedPostback(event) {
 
   // When a postback is called, we'll send a message back to the sender to 
   // let them know it was successful
-  sendTextMessage(senderID, "Postback called");
+  if(payload == 'rate_verylow'){
+    sendTextMessage(senderID, "ข้ารู้ข้าเห็นข้าเป็น ai ผิดไปแล้วครับ จะพยายามเก่งขึ้นฮะ");
+  }
+  else if(payload == 'rate_soso'){
+    sendTextMessage(senderID, "ข้ารู้ข้าเห็นข้าเป็น ai ทำอะไรได้มากกว่าที่คิดนะจะ");
+  }
+  else if(payload == 'rate_high'){
+    sendTextMessage(senderID, "ข้ารู้ข้าเห็นข้าเป็น ai รู้ทุกอย่างอยู่แล้ว หึหึ");
+  }
+  else{
+    sendTextMessage(senderID, payload);
+  }
+  
+  
 }
 
 /*
