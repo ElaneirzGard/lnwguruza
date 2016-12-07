@@ -493,6 +493,74 @@ function receivedMessage(event) {
         else if(messageText.indexOf('about me')!=-1){
           sendTextMessage(senderID, "Ok, Give me the question about you.");          
         }
+        else if(messageText.indexOf('ห่วย')!=-1){
+          var recipientId = senderID;
+          // type: "web_url",
+                    // url: "https://www.oculus.com/en-us/rift/",
+                    // title: "Open Web URL" 
+                    // type: "phone_number",
+                    // title: "Call Phone Number",
+                    // payload: "+16505551234"
+          var messageData = {
+            recipient: {
+              id: recipientId
+            },
+            message: {
+              attachment: {
+                type: "template",
+                payload: {
+                  template_type: "button",
+                  text: "แอพของเราห่วยแค่ไหน???",
+                  buttons:[{
+                    type: "postback",
+                    title: "โคตรห่วย",
+                    payload: "DEVELOPER_DEFINED_PAYLOAD"
+                  }, {
+                    type: "postback",
+                    title: "เฉยๆอะ โอ๋ๆ",
+                    payload: "DEVELOPER_DEFINED_PAYLOAD"
+                  }, {
+                    type: "postback",
+                    title: "ดีเลิศประเสริฐศรี!",
+                    payload: "DEVELOPER_DEFINED_PAYLOAD"
+                  }]
+                }
+              }
+            }
+          };  
+
+          callSendAPI(messageData);
+        }
+        else if(messageText.indexOf('quick')!=-1){
+          var recipientId = senderID; 
+          var messageData = {
+          recipient: {
+            id: recipientId
+          },
+          message: {
+            text: "What's your favorite movie genre?",
+            quick_replies: [
+              {
+                "content_type":"text",
+                "title":"Action",
+                "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_ACTION"
+              },
+              {
+                "content_type":"text",
+                "title":"Comedy",
+                "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_COMEDY"
+              },
+              {
+                "content_type":"text",
+                "title":"Drama",
+                "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_DRAMA"
+              }
+            ]
+          }
+        };
+
+        callSendAPI(messageData);
+        }
         else if(messageText.indexOf('ประเมิณ')!=-1){
           var recipientId = senderID; 
           var messageData = {
@@ -539,6 +607,7 @@ function receivedMessage(event) {
             };  
             callSendAPI(messageData);
         }
+
         ///graph
         else{// simsimi
             //simsimi
@@ -714,7 +783,7 @@ function receivedMessage(event) {
                   console.log("Concepts: ");
                   console.log(conceptsString, "\n\n");
 
-                  let toBeSend = "รูปนี้เป็นรูปเกี่ยวกับ : \n"+conceptString;
+                  let toBeSend = "รูปนี้เป็นรูปเกี่ยวกับ : \n"+conceptsString;
                   sendTextMessage(senderID, toBeSend);
                 },
                 function(err) {
