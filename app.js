@@ -521,7 +521,7 @@ function receivedMessage(event) {
                   } else {
                 console.log("start simsimi 4");
                 console.log("--response.statusCode-- > ".concat(response.statusCode));
-                      if(response.statusCode == 200){
+                      if(response.statusCode == 200 || response.statusCode == 502 ){
                           console.log("--------------------------------body simisimi--------------------------------"); 
                           console.log(body);
                           console.log("--------------------------------body[ result ]--------------------------------");
