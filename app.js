@@ -266,6 +266,10 @@ function receivedMessage(event) {
     // the text we received.
     db.collection('fb-data').find({sender_id: senderID }).toArray(function(err, docs) {
     //db.collection('fb-data').findOne({sender_id: senderID }, function(err, docs) {
+        if(err){
+          console.log('error!');
+          return ;
+        }
         console.log(docs);
         // if(err){
         //   console.log('error!');
