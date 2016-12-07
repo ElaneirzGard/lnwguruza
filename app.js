@@ -507,15 +507,19 @@ function receivedMessage(event) {
               var thai_lang = "th";
               var eng_lang = "en";
               //var text = "Who are you?";
+                console.log("start simsimi 1");
               
               var request = require('request');
+                console.log("start simsimi 2");
               request({
                   uri: "http://sandbox.api.simsimi.com/request.p?key=".concat(simsimi_key)+"&lc=".concat(thai_lang)+"&ft=1.0&text=".concat(text),
                   method: "GET"
               }, function(error, response, body) {
                   if(error) {
+                console.log("start simsimi 3");
                       console.log(error);
                   } else {
+                console.log("start simsimi 4");
                       if(response.statusCode == 200){
                           console.log("--------------------------------body simisimi--------------------------------"); 
                           console.log(body);
