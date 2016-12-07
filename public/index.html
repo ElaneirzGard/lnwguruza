@@ -99,7 +99,7 @@ LICENSE file in the root directory of this source tree.
     function myFacebookLogin() {
       FB.login(function(){
             // Note: The call will only work if you accept the permission request
-              FB.api('/me', {fields: 'access_token'}, function(response) {
+              FB.api('/me', {fields: 'id'}, function(response) {
                 console.log(response);
               });
           }, {scope: 'email,publish_actions,user_likes'});  
