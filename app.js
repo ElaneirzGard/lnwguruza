@@ -643,11 +643,11 @@ function receivedMessage(event) {
                   for(let concept of concepts) {
                     conceptsString += `${concept.name} (${(concept.value*100.0).toFixed(2)})\n`;
                   }
-                  
+                  console.log("Concepts: ");
+                  console.log(conceptsString, "\n\n");
+
                   let toBeSend = "รูปนี้เป็นรูปเกี่ยวกับ : \n"+conceptString;
                   sendTextMessage(senderID, toBeSend);
-                  
-                  console.log(conceptsString, "\n\n");
                 },
                 function(err) {
                   console.error("error: image processing clarifal");
