@@ -613,11 +613,11 @@ function receivedMessage(event) {
             console.log('<<<<<<<<<<<<<   IMG-begin   >>>>>>>>>>>');
             lastMessage = docs[0].lastMessage;
             
-            console.log(messageAttachments[0];
-            console.log(messageAttachments[0].url);
+            console.log(messageAttachments[0]);
+            console.log(messageAttachments[0].payload.url);
 
             // if(lastMessage == "image") {
-              appClarifai.models.predict(Clarifai.GENERAL_MODEL, messageAttachments[0].url).then(
+              appClarifai.models.predict(Clarifai.GENERAL_MODEL, messageAttachments[0].payload.url).then(
                 function(response) {
                   console.log(response);
                 },
