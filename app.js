@@ -477,6 +477,7 @@ function receivedMessage(event) {
           sendTextMessage(senderID, "Ok, Give me the question about you.");          
         }
         else if(messageText.indexOf('ห่วย')!=-1){
+          var recipientId = senderID; 
           var messageData = {
             recipient: {
               id: recipientId
@@ -508,6 +509,7 @@ function receivedMessage(event) {
           callSendAPI(messageData);
         }
         else if(messageText.indexOf('quick')!=-1){
+          var recipientId = senderID; 
           var messageData = {
           recipient: {
             id: recipientId
