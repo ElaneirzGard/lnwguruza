@@ -68,18 +68,6 @@ MongoClient.connect(url, function(err, database) {
   assert.equal(null, err);
   db = database;
   console.log("Connected successfully to server");
-  console.log("db ========",db);
-  console.log("db.collection ========",db.collection);
-  console.log("db.collection.findOne ========",db.collection('user').findOne);
-  db.collection('user').findOne({senderID: "1183871534981346"}, function(err, document) {
-    if(err){
-      console.log("Error add FacebookId",err);
-    }
-    else if(document){
-      console.log(">>>>>>>>>> ",document)
-      db.collection('user').update({senderID: "1183871534981346"}, {$set: {facebookID:"123"}});
-    }
-  });
   //db.close();
 });
 
@@ -232,9 +220,6 @@ app.post('/addFacebookId', function (req, res) {
     senderID: senderId,
     facebookID: facebookId
   };
-  console.log("db >>>>>>>>>>>>>>",db)
-  console.log("db collection >>>>>>>>>>>>>>",db.collection)
-  console.log("db >>>>>>>>>>>>>>",db.collection.findOne)
 
   db.collection('user').findOne({senderID: senderId}, function(err, document) {
     if(err){
