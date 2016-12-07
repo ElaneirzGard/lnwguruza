@@ -590,7 +590,7 @@ function receivedMessage(event) {
             };
             db.collection('user').insert(user);          
           }
-      }
+      });
     }
     console.log(messageAttachments);
   }
