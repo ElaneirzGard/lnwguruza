@@ -71,12 +71,12 @@ MongoClient.connect(url, function(err, database) {
   console.log("db ========",db);
   console.log("db.collection ========",db.collection);
   console.log("db.collection.findOne ========",db.collection.findOne);
-  db.collection.findOne({senderID: "1183871534981346"}, function(err, document) {
+  db.collection('user').findOne({senderID: "1183871534981346"}, function(err, document) {
     if(err){
       console.log("Error add FacebookId",err);
     }
     else if(document){
-      db.collection.update({senderID: "1183871534981346"}, {$set: {facebookID:"123"}});
+      db.collection('user').update({senderID: "1183871534981346"}, {$set: {facebookID:"123"}});
     }
     res.send("success");
   });
@@ -234,14 +234,14 @@ app.post('/addFacebookId', function (req, res) {
   };
   console.log("db >>>>>>>>>>>>>>",db)
   console.log("db collection >>>>>>>>>>>>>>",db.collection)
-  console.log("db>>>>>>>>>>>>>>",db.collection.findOne)
+  console.log("db >>>>>>>>>>>>>>",db.collection.findOne)
 
-  db.collection.findOne({senderID: senderId}, function(err, document) {
+  db.collection('user').findOne({senderID: senderId}, function(err, document) {
     if(err){
       console.log("Error add FacebookId",err);
     }
     else if(document){
-      db.collection.update({senderID: senderId}, {$set: {facebookID:facebookId}});
+      db.collection('user').update({senderID: senderId}, {$set: {facebookID:facebookId}});
     }
     else{
       db.collection('user').insert(user);     
