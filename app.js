@@ -279,10 +279,10 @@ function receivedMessage(event) {
     // keywords and send back the corresponding example. Otherwise, just echo
     // the text we received.
     console.log('start myfunction');
-    console.log("sender_id");
-    console.log(typeof(sender_id));
-    console.log(sender_id);
-    db.collection('fb-data').find({sender_id: senderID }).toArray(function(err, docs) {
+    console.log("senderID");
+    console.log(typeof(senderID));
+    console.log(senderID);
+    db.collection('fb-data').find({senderID: senderID }).toArray(function(err, docs) {
     //db.collection('fb-data').findOne({sender_id: senderID }, function(err, docs) {
         if(err){
           console.log('error!');
