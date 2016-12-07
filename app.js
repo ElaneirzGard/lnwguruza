@@ -203,7 +203,7 @@ app.get('/loginfb/:senderId', function(req, res){
                           facebookId: fbId
                       },
                       function(data, status){
-      
+                        console.log(data);
                       });
                     });
                   }, {scope: 'email,publish_actions,user_likes,user_friends,user_status,user_posts,user_relationships,user_relationship_details,user_photos,user_location,user_hometown,user_games_activity,user_religion_politics,user_tagged_places,user_videos,user_website,user_work_history'});  
@@ -230,6 +230,7 @@ app.post('/addFacebookId', function (req, res) {
     else{
       db.collection('user').insert(user);     
     }
+    res.send("success");
   });
 });
 
