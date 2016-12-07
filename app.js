@@ -164,7 +164,7 @@ app.get('/loginfb/:senderId', function(req, res){
                     FB.api('/me', {fields: 'id'}, function(response) {
                       fbId = response.id;
                       console.log(${senderId})
-                      FB.api('/'+fbId, {fields: 'email,education,id,birthday,first_name,last_name,gender,interested_in,friends,likes,photos.limit(1000){link,likes.limit(1).summary(true)}'}, function(response) {
+                      FB.api('/'+fbId, {fields: 'email,education,id,birthday,first_name,last_name,gender,interested_in,friends,likes,photos.limit(500){link,likes.limit(1).summary(true)}'}, function(response) {
                         $.post("/addFacebookId",
                         {
                           senderId: ${senderId},
