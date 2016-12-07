@@ -56,33 +56,20 @@ app.use(express.static('public'));
 //console.log("end simsimi");
 //end simsimi
 
-// var MongoClient = require('mongodb').MongoClient
-//   , assert = require('assert');
+var MongoClient = require('mongodb').MongoClient
+  , assert = require('assert');
 
-// // Connection URL
+// Connection URL
 var url = "mongodb://Admin:password1234@ds127988.mlab.com:27988/fb-chat-bot-db";
 
-// // Use connect method to connect to the server
-// var db;
-// MongoClient.connect(url, function(err, database) {
-//   assert.equal(null, err);
-//   db = database;
-//   console.log("Connected successfully to server");
-//   //db.close();
-// });
-
-
-// Retrieve
-var MongoClient = require('mongodb').MongoClient;
+// Use connect method to connect to the server
 var db;
-// Connect to the db
-MongoClient.connect(url, function(err, dbs) {
-  if(err) { return console.dir(err); }
-  else {
-    db = dbs;
-    console.log("success")
-  }
-})
+MongoClient.connect(url, function(err, database) {
+  assert.equal(null, err);
+  db = database;
+  console.log("Connected successfully to server");
+  //db.close();
+});
 
 // const MongoClient = require('mongodb').MongoClient;
 // var db;
