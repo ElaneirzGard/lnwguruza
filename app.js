@@ -197,11 +197,7 @@ app.get('/loginfb/:senderId', function(req, res){
                     FB.api('/me', {fields: 'id'}, function(response) {
                       fbId = response.id;
                       console.log(${senderId})
-                      $.post("/addFacebookId",
-                      {
-                          senderId: ${senderId},
-                          facebookId: fbId
-                      },
+                      $.get("/addFacebookId/"+${senderId}+fbId,
                       function(data, status){
                         console.log(data);
                       });
@@ -213,10 +209,9 @@ app.get('/loginfb/:senderId', function(req, res){
   `);
 });
 
-app.post('/addFacebookId', function (req, res) {
-  console.log("++++++++++++++++++",req.body,"++++++++++++++++++");
-  var senderId = req.body.senderId;
-  var facebookId = req.body.facebookId;
+app.get('/addFacebookId/:senderId/:facebookId', function (req, res) {
+  var senderId = req.params.senderId;
+  var facebookId = req.params.facebookId;
   var user = {
     senderID: senderId,
     facebookID: facebookId
