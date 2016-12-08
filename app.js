@@ -512,7 +512,7 @@ function receivedMessage(event) {
                 topPhotos = photos.slice(0,3);
                 topPhotos.forEach(function(photo,index){
                   elements.push({
-                    title: "top"+(index+1)+"liked profile pictures",
+                    title: "top "+(index+1)+" liked profile pictures",
                     item_url: photo.link,
                     image_url: photo.picture,
                   });
