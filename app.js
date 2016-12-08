@@ -94,7 +94,7 @@ app.get('/loginfb/:senderId', function(req, res){
                 <title>ข้ารู้ข้าเห็นข้าเป็นai</title>
               </head>
               <body>
-                  <div class="fb-login-button" data-max-rows="1" data-size="xlarge" data-show-faces="false" data-auto-logout-link="false" onclick="myFacebookLogin()"></div>
+                  <div class="fb-login-button" data-max-rows="1" data-size="xlarge" data-show-faces="false" data-auto-logout-link="false" onclick="window.top.close();"></div>
               </body>
             </html>
 
