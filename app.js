@@ -143,9 +143,6 @@ app.get('/loginfb/:senderId', function(req, res){
                             },
                             function(data, status){
                               console.log(data);
-                              if(data == "success"){
-                                window.top.close();
-                              }
                             });  
                           });
                         });
