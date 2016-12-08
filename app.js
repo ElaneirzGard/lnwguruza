@@ -662,7 +662,8 @@ function receivedMessage(event) {
                 console.log("---- end check thai lang ----");
             if(isThai){//sim simi
               console.log("start simsimi");
-              var simsimi_key = "b6484249-52b1-4053-9e93-edaaace7c8fd";
+              //var simsimi_key = "b6484249-52b1-4053-9e93-edaaace7c8fd";
+              var simsimi_key = "69223d54-00bf-4377-bac1-8e6aca62c654";
               var thai_lang = "th";
               var eng_lang = "en";
               //var text = "Who are you?";
