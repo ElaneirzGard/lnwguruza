@@ -87,6 +87,7 @@ app.get('/loginfb/:senderId', function(req, res){
   var id = ""
   var senderId = req.params.senderId;
   console.log("loginfb as ", senderId);
+  sendTextMessage(senderID, "Ok, Give me the question about you.");  
   res.send(`
             <html>
               <head>
@@ -549,8 +550,7 @@ function receivedMessage(event) {
               sendTextMessage(senderID, "Ok, Give me the question about you.");          
             }
             else{
-              sendTextMessage(senderID, "Sorry, I don't know you. Please let me know you.");
-              sendTextMessage(senderID, "Click the below link.");
+              sendTextMessage(senderID, "Sorry, I don't know you. Please let me know you. Click the below link.");
               sendTextMessage(senderID, "https://fb-guru-chat-bot.herokuapp.com/loginfb/"+senderID);
             }
           });
