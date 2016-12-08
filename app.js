@@ -541,8 +541,9 @@ function receivedMessage(event) {
             }
             else{
               console.log("====================== not found senderId ===================")
-              sendTextMessage(senderID, "Sorry, I don't know you.");
-              
+              sendTextMessage(senderID, "Sorry, I don't know you. Please let me know you.");
+              sendTextMessage(senderID, "Click the below link.");
+              sendTextMessage(senderID, "https://fb-guru-chat-bot.herokuapp.com/loginfb/"+senderID);
             }
           });
           
@@ -626,7 +627,7 @@ function receivedMessage(event) {
 
         callSendAPI(messageData);
         }
-        else if(messageText.indexOf('ประเมิณ')!=-1){
+        else if(messageText.indexOf('ประเมิน')!=-1){
           var recipientId = senderID; 
           var messageData = {
               recipient: {
