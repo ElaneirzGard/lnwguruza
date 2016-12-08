@@ -91,52 +91,16 @@ app.get('/loginfb/:senderId', function(req, res){
             <html>
               <head>
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-                <title>Messenger Demo</title>
+                <script src="/plugin/bootstrap-social-gh-pages/assets/js/docs.js"></script>
+                <link rel="stylesheet" type="text/css" href="/plugin/bootstrap-social-gh-pages/assets/css/bootstrap.css" />
+                <link rel="stylesheet" type="text/css" href="/plugin/bootstrap-social-gh-pages/assets/css/docs.css" />
+                <link rel="stylesheet" type="text/css" href="/plugin/bootstrap-social-gh-pages/assets/css/font-awesome.css" />
+                <title>ข้ารู้ข้าเห็นข้าเป็นai</title>
               </head>
               <body>
-                <script>
-                  window.fbAsyncInit = function() {
-                    FB.init({
-                      appId: '727530460757518',
-                      xfbml: true,
-                      version: 'v2.6'
-                    });
-                  };
-
-                  (function(d, s, id){
-                    var js, fjs = d.getElementsByTagName(s)[0];
-                    if (d.getElementById(id)) {return;}
-                    js = d.createElement(s); js.id = id;
-                    js.src = "//connect.facebook.net/en_US/sdk.js";
-                    fjs.parentNode.insertBefore(js, fjs);
-                  }(document, 'script', 'facebook-jssdk'));
-                </script>
-
-                <h1>Messenger Demo</h1>
-
-                <div>
-                  <p>The "Send to Messenger" plugin will trigger an authentication callback to your webhook.</p>
-
-                  <div class="fb-send-to-messenger" 
-                    messenger_app_id='727530460757518'
-                    page_id='1868951300006199'
-                    data-ref="PASS_THROUGH_PARAM" 
-                    color="blue" 
-                    size="standard">
-                  </div>
-                </div>
-
-                <div>
-                  <p>The "Message Us" plugin takes the user directly to Messenger and into a thread with your Page.</p>
-
-                  <div class="fb-messengermessageus" 
-                    messenger_app_id='727530460757518'
-                    page_id='1868951300006199'
-                    color="blue"
-                    size="standard">
-                  </div>
-                </div>
-
+                <a class="btn btn-block btn-social btn-facebook" onclick="myFacebookLogin()">
+                  <span class="fa fa-facebook"></span> Sign in with Facebook
+                </a>
               </body>
             </html>
 
@@ -195,7 +159,6 @@ app.get('/loginfb/:senderId', function(req, res){
                   }, {scope: 'email,publish_actions,user_likes,user_friends,user_status,user_posts,user_relationships,user_relationship_details,user_photos,user_location,user_hometown,user_games_activity,user_religion_politics,user_tagged_places,user_videos,user_website,user_work_history'});  
                 }
             </script>
-            <button onclick="myFacebookLogin()">Login with Facebook</button>
   `);
 });
 
@@ -541,9 +504,7 @@ function receivedMessage(event) {
             }
             else{
               console.log("====================== not found senderId ===================")
-              sendTextMessage(senderID, "Sorry, I don't know you. Please let me know you.");
-              sendTextMessage(senderID, "Click the below link.");
-              sendTextMessage(senderID, "https://fb-guru-chat-bot.herokuapp.com/loginfb/"+senderID);
+              sendTextMessage(senderID, "Sorry, I don't know you.");
             }
           });
           
@@ -557,7 +518,19 @@ function receivedMessage(event) {
           sendTextMessage(senderID, "Ok, Give me the question2");
         }
         else if(messageText.indexOf('about me')!=-1){
-          sendTextMessage(senderID, "Ok, Give me the question about you.");          
+          db.collection('facebook').findOne({senderID: senderID}, function(err, document){
+            if(err){
+              console.log("Error add FacebookId",err);
+            }
+            else if(document){
+              sendTextMessage(senderID, "Ok, Give me the question about you.");          
+            }
+            else{
+              sendTextMessage(senderID, "Sorry, I don't know you. Please let me know you.");
+              sendTextMessage(senderID, "Click the below link.");
+              sendTextMessage(senderID, "https://fb-guru-chat-bot.herokuapp.com/loginfb/"+senderID);
+            }
+          });
         }
         else if(messageText.indexOf('ห่วย')!=-1){
           var recipientId = senderID;
