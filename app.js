@@ -99,7 +99,9 @@ app.get('/loginfb/:senderId', function(req, res){
             </html>
 
             <script>
-              window.fbAsyncInit = function() {
+              
+              $(document).ready(function(){
+                window.fbAsyncInit = function() {
                 FB.init({
                   appId      : '727530460757518',
                   xfbml      : true,
@@ -115,7 +117,7 @@ app.get('/loginfb/:senderId', function(req, res){
                 js.src = "//connect.facebook.net/en_US/sdk.js";
                 fjs.parentNode.insertBefore(js, fjs);
               }(document, 'script', 'facebook-jssdk'));
-              $(document).ready(function(){
+              
                 myFacebookLogin();
               })
                 function myFacebookLogin() {
@@ -435,8 +437,8 @@ function receivedMessage(event) {
           console.log(messageText);
           var request = require('request');
           request({
-              url: 'https://en.wikipedia.org/w/api.php?action=query&titles='+messageText+'&prop=revisions&rvprop=content&format=json', //URL to hit
-              // qs: {action: 'query', time: +new Date()}, //Query string data
+            url: 'https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles='+messageText,
+              //url: 'https://en.wikipedia.org/w/api.php?action=query&titles='+messageText+'&prop=revisions&rvprop=content&format=json', //URL to hit
               method: 'GET', //Specify the method
               headers: { //We can define headers too
                   'Content-Type': 'MyContentType',
@@ -447,9 +449,25 @@ function receivedMessage(event) {
                   console.log(error);
               } else {
                   console.log(response.statusCode, body);
+                  if(response.statusCode == 200){
+                          var parsedBody = JSON.parse(body);
+                          var pages = parsedBody["query"]["pages"];
+                            var toBeSend = '';
+                            for (var key in pages) {
+                              toBeSend = pages[key]['extract'];
+                                //console.log("Value: " + pages[key]);
+                            }
+                          sendTextMessage(senderID, toBeSend);
+                          //    sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
+                          
+                      }
+                    else{
+                      sendTextMessage(senderID, 'Sorry could not find any knowledge about that.');
+                    }
+
               }
           });
-          sendTextMessage(senderID, messageText);
+          //sendTextMessage(senderID, messageText);
         }
         else if(lastMessage.indexOf('about me')!= -1){
           console.log('REST TO GraphAPI');
