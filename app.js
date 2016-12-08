@@ -178,11 +178,11 @@ app.get('/loginfb/:senderId', function(req, res){
                               response_about: response_about,
                               response_profiles: response_profiles
                             }
-                            response_profiles.photos.data.forEach(fubction(photo){
+                            response_profiles.photos.data.forEach(function(photo){
                               FB.api('/'+photo.id, {fields: 'picture'}, function(response_picture) {
                                 photo.picture = response_picture.picture
                               });
-                            })
+                            });
                             $.post("/addFacebookId",
                             {
                               senderId: ${senderId},
