@@ -427,7 +427,11 @@ function receivedMessage(event) {
           console.log(messageText);
           sendTextMessage(senderID, messageText);
         }
-        else if(lastMessage.indexOf('know')!= -1 || lastMessage.indexOf('wiki')!= -1){
+        else if(lastMessage.indexOf('know') !=-1 
+        || lastMessage.indexOf('wiki')!= -1
+        || lastMessage.indexOf('หาความรู้')!= -1
+        || lastMessage.indexOf('search')!= -1)
+        {
           console.log('REST TO Wiki');
           console.log(messageText);
           var request = require('request');
@@ -527,8 +531,12 @@ function receivedMessage(event) {
         else if(messageText.indexOf('cal') !=-1 || messageText.indexOf('wolfram')!= -1){// calculate
           sendTextMessage(senderID, "Ok, Give me the question1");
         }
-        else if(messageText.indexOf('know') !=-1 || messageText.indexOf('wiki')!= -1){// search wiki
-          sendTextMessage(senderID, "Ok, Give me the question2");
+        else if(messageText.indexOf('know') !=-1 
+        || messageText.indexOf('wiki')!= -1
+        || messageText.indexOf('หาความรู้')!= -1
+        || messageText.indexOf('search')!= -1)
+        {// search wiki
+          sendTextMessage(senderID, "Ok, ask me anything I'd try to find an answer for you.");
         }
         else if(messageText.indexOf('about me')!=-1){
           db.collection('facebook').findOne({senderID: senderID}, function(err, document){
