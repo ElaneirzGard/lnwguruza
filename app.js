@@ -20,7 +20,7 @@ var MongoClient = require('mongodb').MongoClient
   , assert = require('assert');
 
 // Connection URL
-var url = "mongodb://Admin:password1234@ds127938.mlab.com:27938/fb-chat-bot-db";
+var url = "mongodb://Admin:password1234@ds129038.mlab.com:29038/fb-chat-bot-db";
 
 // Use connect method to connect to the server
 var db;
@@ -493,8 +493,10 @@ function receivedMessage(event) {
         }
         else if(lastMessage.indexOf('about me')!= -1){
           console.log('REST TO GraphAPI');
-          if(messageText.indexOf('top') !=-1 && (messageText.indexOf('picture')!= -1 || messageText.indexOf('photo')!= -1)){
+          if(messageText.indexOf('top') !=-1 && (messageText.indexOf('picture')!= -1 || messageText.indexOf('photo')!= -1 && messageText.indexOf('profile') != -1)){
             var photos;
+            var topPhotos;
+            var elements = [];
             console.log("senderID >>>>>>>>>>",senderID)
             db.collection('facebook').findOne({senderID: senderID}, function(err, document) {
               if(err){
@@ -504,7 +506,58 @@ function receivedMessage(event) {
                   console.log("facebook data >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ",document);
                   photos = document.response_profiles.photos.data;
                   photos.sort(function(a, b){return b.likes.summary.total_count-a.likes.summary.total_count}); 
-                  console.log("photos >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",photos.slice(0, 2));
+                  console.log("photos >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                  console.log(photos.slice(0, 2));
+                  console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ");
+                  topPhotos = photos.slice(0,2);
+                  topPhotos.forEach(function(photo){
+                    
+                  });
+                  //=================================================================
+                  // var messageData = {
+                  //     recipient: {
+                  //       id: recipientId
+                  //     },
+                  //     message: {
+                  //       attachment: {
+                  //         type: "template",
+                  //         payload: {
+                  //           template_type: "generic",
+                  //           elements: [{
+                  //             title: "rift",
+                  //             subtitle: "Next-generation virtual reality",
+                  //             item_url: "https://www.oculus.com/en-us/rift/",               
+                  //             image_url: SERVER_URL + "/assets/rift.png",
+                  //             buttons: [{
+                  //               type: "web_url",
+                  //               url: "https://www.oculus.com/en-us/rift/",
+                  //               title: "Open Web URL"
+                  //             }, {
+                  //               type: "postback",
+                  //               title: "Call Postback",
+                  //               payload: "Payload for first bubble",
+                  //             }],
+                  //           }, {
+                  //             title: "touch",
+                  //             subtitle: "Your Hands, Now in VR",
+                  //             item_url: "https://www.oculus.com/en-us/touch/",               
+                  //             image_url: SERVER_URL + "/assets/touch.png",
+                  //             buttons: [{
+                  //               type: "web_url",
+                  //               url: "https://www.oculus.com/en-us/touch/",
+                  //               title: "Open Web URL"
+                  //             }, {
+                  //               type: "postback",
+                  //               title: "Call Postback",
+                  //               payload: "Payload for second bubble",
+                  //             }]
+                  //           }]
+                  //         }
+                  //       }
+                  //     }
+                  //   };  
+                  //   callSendAPI(messageData);
+                    //====================================================================
               }
               else{
                 console.log("not found senderId")
