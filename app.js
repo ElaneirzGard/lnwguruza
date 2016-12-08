@@ -536,7 +536,7 @@ function receivedMessage(event) {
         || messageText.indexOf('หาความรู้')!= -1
         || messageText.indexOf('search')!= -1)
         {// search wiki
-          sendTextMessage(senderID, "Ok, ask me anything I'd try to find an answer for you.");
+          sendTextMessage(senderID, "Ok, ask me anything I'll try to find an answer for you.");
         }
         else if(messageText.indexOf('about me')!=-1){
           db.collection('facebook').findOne({senderID: senderID}, function(err, document){
