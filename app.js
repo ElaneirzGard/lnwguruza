@@ -20,7 +20,7 @@ var MongoClient = require('mongodb').MongoClient
   , assert = require('assert');
 
 // Connection URL
-var url = "mongodb://Admin:password1234@ds129028.mlab.com:29028/fb-chat-bot-db";
+var url = "mongodb://Admin:password1234@ds159767.mlab.com:59767/fb-chat-bot-db";
 
 // Use connect method to connect to the server
 var db;
