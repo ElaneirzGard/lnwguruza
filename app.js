@@ -493,79 +493,60 @@ function receivedMessage(event) {
         }
         else if(lastMessage.indexOf('about me')!= -1){
           console.log('REST TO GraphAPI');
-          if(messageText.indexOf('top') !=-1 && (messageText.indexOf('picture')!= -1 || messageText.indexOf('photo')!= -1 && messageText.indexOf('profile') != -1)){
-            var photos;
-            var topPhotos;
-            var elements = [];
-            console.log("senderID >>>>>>>>>>",senderID)
-            db.collection('facebook').findOne({senderID: senderID}, function(err, document) {
-              if(err){
-                console.log("Error add FacebookId",err);
-              }
-              else if(document){
-                  console.log("facebook data >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ",document);
-                  photos = document.response_profiles.photos.data;
-                  photos.sort(function(a, b){return b.likes.summary.total_count-a.likes.summary.total_count}); 
-                  console.log("photos >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-                  console.log(photos.slice(0, 2));
-                  console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ");
-                  topPhotos = photos.slice(0,2);
-                  topPhotos.forEach(function(photo){
-                    
+          console.log("senderID >>>>>>>>>>",senderID)
+          db.collection('facebook').findOne({senderID: senderID}, function(err, document) {
+            if(err){
+              console.log("Error add FacebookId",err);
+            }
+            else if(document){
+              if(messageText.indexOf('top') !=-1 && (messageText.indexOf('picture')!= -1 || messageText.indexOf('photo')!= -1 && messageText.indexOf('profile') != -1)){
+                var photos;
+                var topPhotos;
+                var elements = [];
+                console.log("facebook data >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ",document);
+                photos = document.response_profiles.photos.data;
+                photos.sort(function(a, b){return b.likes.summary.total_count-a.likes.summary.total_count}); 
+                console.log("photos >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                console.log(photos.slice(0, 2));
+                console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ");
+                topPhotos = photos.slice(0,2);
+                topPhotos.forEach(function(photo,index){
+                  elements.push({
+                    title: "top"+index+1+"liked profile pictures",        
+                    image_url: photo.link,
                   });
-                  //=================================================================
-                  // var messageData = {
-                  //     recipient: {
-                  //       id: recipientId
-                  //     },
-                  //     message: {
-                  //       attachment: {
-                  //         type: "template",
-                  //         payload: {
-                  //           template_type: "generic",
-                  //           elements: [{
-                  //             title: "rift",
-                  //             subtitle: "Next-generation virtual reality",
-                  //             item_url: "https://www.oculus.com/en-us/rift/",               
-                  //             image_url: SERVER_URL + "/assets/rift.png",
-                  //             buttons: [{
-                  //               type: "web_url",
-                  //               url: "https://www.oculus.com/en-us/rift/",
-                  //               title: "Open Web URL"
-                  //             }, {
-                  //               type: "postback",
-                  //               title: "Call Postback",
-                  //               payload: "Payload for first bubble",
-                  //             }],
-                  //           }, {
-                  //             title: "touch",
-                  //             subtitle: "Your Hands, Now in VR",
-                  //             item_url: "https://www.oculus.com/en-us/touch/",               
-                  //             image_url: SERVER_URL + "/assets/touch.png",
-                  //             buttons: [{
-                  //               type: "web_url",
-                  //               url: "https://www.oculus.com/en-us/touch/",
-                  //               title: "Open Web URL"
-                  //             }, {
-                  //               type: "postback",
-                  //               title: "Call Postback",
-                  //               payload: "Payload for second bubble",
-                  //             }]
-                  //           }]
-                  //         }
-                  //       }
-                  //     }
-                  //   };  
-                  //   callSendAPI(messageData);
-                    //====================================================================
+                });
+                //=================================================================
+                var messageData = {
+                    recipient: {
+                      id: senderID
+                    },
+                    message: {
+                      attachment: {
+                        type: "template",
+                        payload: {
+                          template_type: "generic",
+                          elements: elements
+                        }
+                      }
+                    }
+                  };  
+                  callSendAPI(messageData);
+                  //====================================================================
               }
               else{
-                console.log("not found senderId")
+                sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
               }
-            });
-          }
-          console.log(messageText);
-          sendTextMessage(senderID, messageText);
+            }
+            else{
+              console.log("====================== not found senderId ===================")
+              sendTextMessage(senderID, "Sorry, I don't know you.");
+              
+            }
+          });
+          
+          // console.log(messageText);
+          // sendTextMessage(senderID, messageText);
         }
         else if(messageText.indexOf('cal') !=-1 || messageText.indexOf('wolfram')!= -1){// calculate
           sendTextMessage(senderID, "Ok, Give me the question1");
