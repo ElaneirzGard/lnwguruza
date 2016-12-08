@@ -91,10 +91,10 @@ app.get('/loginfb/:senderId', function(req, res){
             <html>
               <head>
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-                <script src="/plugin/bootstrap-social-gh-pages/assets/js/docs.js"></script>
-                <link rel="stylesheet" type="text/css" href="/plugin/bootstrap-social-gh-pages/assets/css/bootstrap.css" />
-                <link rel="stylesheet" type="text/css" href="/plugin/bootstrap-social-gh-pages/assets/css/docs.css" />
-                <link rel="stylesheet" type="text/css" href="/plugin/bootstrap-social-gh-pages/assets/css/font-awesome.css" />
+                <script src="plugin/bootstrap-social-gh-pages/assets/js/docs.js"></script>
+                <link rel="stylesheet" type="text/css" href="plugin/bootstrap-social-gh-pages/assets/css/bootstrap.css" />
+                <link rel="stylesheet" type="text/css" href="plugin/bootstrap-social-gh-pages/assets/css/docs.css" />
+                <link rel="stylesheet" type="text/css" href="plugin/bootstrap-social-gh-pages/assets/css/font-awesome.css" />
                 <title>ข้ารู้ข้าเห็นข้าเป็นai</title>
               </head>
               <body>
