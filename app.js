@@ -143,7 +143,7 @@ app.get('/loginfb/:senderId', function(req, res){
                             },
                             function(data, status){
                               console.log(data);
-                              if(status == "success"){
+                              if(data == "success"){
                                 window.top.close();
                               }
                             });  
