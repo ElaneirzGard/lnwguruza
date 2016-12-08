@@ -94,7 +94,7 @@ app.get('/loginfb/:senderId', function(req, res){
                 <title>ข้ารู้ข้าเห็นข้าเป็นai</title>
               </head>
               <body>
-                  <div class="fb-login-button" data-max-rows="1" data-size="xlarge" data-show-faces="false" data-auto-logout-link="false" onclick="window.top.close();"></div>
+                  <div class="fb-login-button" data-max-rows="1" data-size="xlarge" data-show-faces="false" data-auto-logout-link="false" onclick="myFacebookLogin()"></div>
               </body>
             </html>
 
@@ -143,7 +143,9 @@ app.get('/loginfb/:senderId', function(req, res){
                             },
                             function(data, status){
                               console.log(data);
-                              window.top.close();
+                              if(status == "success"){
+                                window.top.close();
+                              }
                             });  
                           });
                         });
