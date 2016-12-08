@@ -99,7 +99,9 @@ app.get('/loginfb/:senderId', function(req, res){
             </html>
 
             <script>
-              window.fbAsyncInit = function() {
+              
+              $(document).ready(function(){
+                window.fbAsyncInit = function() {
                 FB.init({
                   appId      : '727530460757518',
                   xfbml      : true,
@@ -115,7 +117,7 @@ app.get('/loginfb/:senderId', function(req, res){
                 js.src = "//connect.facebook.net/en_US/sdk.js";
                 fjs.parentNode.insertBefore(js, fjs);
               }(document, 'script', 'facebook-jssdk'));
-              $(document).ready(function(){
+              
                 myFacebookLogin();
               })
                 function myFacebookLogin() {
