@@ -719,6 +719,8 @@ function receivedMessage(event) {
                           console.log(parsedBody["result"]);
                               console.log("--------------------------------body[ response ]--------------------------------");
                               var toBeSend = parsedBody["answers"][0]["actions"][0]["expression"];
+                              toBeSend = toBeSend.replace("Susi", "ข้ารู้ข้าเห็นข้าเป็นai");
+                              toBeSend = toBeSend.replace("susi", "ข้ารู้ข้าเห็นข้าเป็นai");
                               sendTextMessage(senderID, toBeSend);
                           //    sendTextMessage(senderID, "Sorry, I don't understand what you mean.");
                           
