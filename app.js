@@ -94,7 +94,6 @@ app.get('/loginfb/:senderId', function(req, res){
                 <title>ข้ารู้ข้าเห็นข้าเป็นai</title>
               </head>
               <body>
-                <div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="false" onclick="myFacebookLogin()"></div>
               </body>
             </html>
 
@@ -115,7 +114,9 @@ app.get('/loginfb/:senderId', function(req, res){
                 js.src = "//connect.facebook.net/en_US/sdk.js";
                 fjs.parentNode.insertBefore(js, fjs);
               }(document, 'script', 'facebook-jssdk'));
-
+              $(document).ready(function(){
+                myFacebookLogin();
+              })
                 function myFacebookLogin() {
                   var fbId = ""
                   var album_profile_id = ""
@@ -144,6 +145,7 @@ app.get('/loginfb/:senderId', function(req, res){
                             },
                             function(data, status){
                               console.log(data);
+                              window.top.close();
                             });  
                           });
                         });
