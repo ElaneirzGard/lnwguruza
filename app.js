@@ -173,16 +173,11 @@ app.get('/loginfb/:senderId', function(req, res){
                               album_profile_id = x.id
                             }
                           });
-                          FB.api('/'+album_profile_id, {fields: 'photos{link,likes.limit(0).summary(true)}'}, function(response_profiles) {
+                          FB.api('/'+album_profile_id, {fields: 'photos{picture,link,likes.limit(0).summary(true)}'}, function(response_profiles) {
                             var newResponse = {
                               response_about: response_about,
                               response_profiles: response_profiles
                             }
-                            response_profiles.photos.data.forEach(function(photo){
-                              FB.api('/'+photo.id, {fields: 'picture'}, function(response_picture) {
-                                photo.picture = response_picture.picture
-                              });
-                            });
                             $.post("/addFacebookId",
                             {
                               senderId: ${senderId},
@@ -519,7 +514,7 @@ function receivedMessage(event) {
                   elements.push({
                     title: "top"+(index+1)+"liked profile pictures",
                     item_url: photo.link,
-                    image_url: photo.link,
+                    image_url: photo.picture,
                   });
                 });
                 //=================================================================
