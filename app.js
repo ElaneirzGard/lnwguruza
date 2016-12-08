@@ -507,12 +507,13 @@ function receivedMessage(event) {
                 photos = document.response_profiles.photos.data;
                 photos.sort(function(a, b){return b.likes.summary.total_count-a.likes.summary.total_count}); 
                 console.log("photos >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-                console.log(photos.slice(0, 2));
+                console.log(photos.slice(0, 3));
                 console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ");
-                topPhotos = photos.slice(0,2);
+                topPhotos = photos.slice(0,3);
                 topPhotos.forEach(function(photo,index){
                   elements.push({
-                    title: "top"+index+1+"liked profile pictures",        
+                    title: "top"+(index+1)+"liked profile pictures",
+                    item_url: photo.link,
                     image_url: photo.link,
                   });
                 });
