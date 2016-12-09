@@ -459,7 +459,7 @@ function receivedMessage(event) {
                               toBeSend = pages[key]['extract'];
                                 //console.log("Value: " + pages[key]);
                             }
-                            if(toBeSend.length > 600){
+                            if(toBeSend && toBeSend.length > 600){
                               toBeSend = toBeSend.substring(0,600) +'...';
                             }
                           sendTextMessage(senderID, toBeSend);
