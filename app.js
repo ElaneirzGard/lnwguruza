@@ -87,7 +87,7 @@ app.get('/loginfb/:senderId', function(req, res){
   var id = ""
   var senderId = req.params.senderId;
   console.log("loginfb as ", senderId);
-  sendTextMessage(senderID, "Ok, Give me the question about you.");  
+  sendTextMessage(senderId, "Ok, Give me the question about you.");  
   res.send(`
             <html>
               <head>
